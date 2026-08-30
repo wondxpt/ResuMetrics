@@ -1,0 +1,82 @@
+/*
+  Self-hosted, fully offline fonts - no network request at runtime,
+  which matters a lot for a Capacitor-wrapped Android app: the old
+  approach (a Google Fonts <link> added in main.jsx, fetched over the
+  network the first time the app opened) silently fell back to the
+  device's system font whenever there was no internet connection at
+  that exact moment - which is very plausible right after a cold
+  start of a packaged app. That font swap is very likely what showed
+  up as "fonts/colors/layout look wrong" when exporting a PDF on a
+  phone: html2canvas paints whatever font is *actually* active, so a
+  silent fallback to the system font changes text width, line
+  wrapping, and therefore the whole visual layout of every template.
+
+  This file replaces both the old runtime <link> AND the earlier,
+  incomplete self-hosting attempt that required manually downloading
+  .ttf files into /public/fonts (see the now-removed
+  src/theme/fonts.css and its README) - @fontsource ships the actual
+  font FILES inside the npm package itself, so `npm install` alone is
+  enough; your bundler (Vite/webpack) copies the referenced font files
+  into the build output automatically, the same way it handles any
+  other imported asset. Once built, Capacitor bundles them straight
+  into the native app - zero runtime network dependency, ever.
+
+  Requires (run once in your project):
+    npm install @fontsource/inter @fontsource/vazirmatn
+
+  Imported from main.jsx - see the import lines added there.
+*/
+
+@import "@fontsource/inter/400.css";
+@import "@fontsource/inter/500.css";
+@import "@fontsource/inter/600.css";
+@import "@fontsource/inter/700.css";
+@import "@fontsource/inter/800.css";
+
+@import "@fontsource/vazirmatn/400.css";
+@import "@fontsource/vazirmatn/500.css";
+@import "@fontsource/vazirmatn/600.css";
+@import "@fontsource/vazirmatn/700.css";
+@import "@fontsource/vazirmatn/800.css";
+
+
+/*
+  Deterministic resume typography.  Latin text uses Arial first for ATS-safe
+  extraction; Persian/Arabic glyphs fall back to the bundled Vazirmatn face.
+  Keeping both fonts bundled means Preview, Save PDF, and Share use the same
+  font files even when the Android device is offline.
+*/
+:root {
+  --resume-latin-font: Arial, Helvetica, sans-serif;
+  --resume-rtl-font: Vazirmatn, Tahoma, Arial, sans-serif;
+}
+
+.resume-page {
+  font-family: var(--resume-latin-font);
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+}
+
+.resume-page[dir="rtl"],
+.resume-page [dir="rtl"] {
+  font-family: var(--resume-rtl-font);
+}
+
+.resume-page strong,
+.resume-page b,
+.resume-page h1,
+.resume-page h2,
+.resume-page h3,
+.resume-page h4,
+.resume-page h5,
+.resume-page h6 {
+  font-synthesis: none;
+}
+
+@media print {
+  .resume-page {
+    print-color-adjust: exact;
+    -webkit-print-color-adjust: exact;
+  }
+}

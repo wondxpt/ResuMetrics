@@ -1,0 +1,1039 @@
+import { Box, Typography } from "@mui/material";
+import { buildResumeData } from "./defaultResumeData";
+import ResumePage from "./ResumePage";
+
+const ACCENT = "#2c3e50";
+const DARK = "#1a1a1a";
+const GREY = "#555555";
+
+function Canadian({ data, demo = false, rtl = false }) {
+  const resume = buildResumeData(data || {}, demo);
+
+  const contactLine = [
+    resume.location,
+    resume.phone,
+    resume.email,
+    resume.linkedin,
+  ]
+    .filter(Boolean)
+    .join(" | ");
+
+  return (
+    <ResumePage
+      sx={{
+        padding: "96px",
+        boxSizing: "border-box",
+        fontFamily: "Arial, Helvetica, sans-serif",
+        color: DARK,
+        overflow: "visible",
+      }}
+    >
+      <Box
+        sx={{
+          width: "100%",
+          minHeight: "100%",
+          boxSizing: "border-box",
+          display: "flex",
+          flexDirection: "column",
+          fontFamily: "Arial, Helvetica, sans-serif",
+          overflow: "visible",
+        }}
+      >
+        <Box
+          sx={{
+            width: "100%",
+            textAlign: "center",
+            flexShrink: 0,
+            margin: 0,
+            padding: 0,
+            boxSizing: "border-box",
+          }}
+        >
+          <Typography
+            component="div"
+            sx={{
+              fontFamily: "Arial, Helvetica, sans-serif",
+              fontSize: "22px",
+              lineHeight: "24px",
+              fontWeight: 700,
+              color: DARK,
+              textAlign: "center",
+              margin: 0,
+              padding: 0,
+              wordBreak: "normal",
+              overflowWrap: "normal",
+            }}
+          >
+            {resume.full_name || "FULL NAME"}
+          </Typography>
+
+          {resume.target_title && (
+            <Typography
+              component="div"
+              sx={{
+                fontFamily: "Arial, Helvetica, sans-serif",
+                fontSize: "14px",
+                lineHeight: 1.45,
+                fontWeight: 400,
+                color: ACCENT,
+                textAlign: "center",
+                margin: 0,
+                padding: 0,
+              }}
+            >
+              {resume.target_title}
+            </Typography>
+          )}
+
+          <Typography
+            component="div"
+            sx={{
+              fontFamily: "Arial, Helvetica, sans-serif",
+              fontSize: "13.5px",
+              lineHeight: 1.42,
+              fontWeight: 400,
+              color: GREY,
+              textAlign: "center",
+              margin: 0,
+              marginTop: "0px",
+              marginBottom: "10px",
+              padding: 0,
+              overflowWrap: "anywhere",
+              wordBreak: "normal",
+            }}
+          >
+            {contactLine || "Location | Phone | Email | LinkedIn"}
+          </Typography>
+
+          <DividerLine />
+        </Box>
+
+        {resume.summary && (
+          <ResumeSection
+            title="PROFESSIONAL SUMMARY"
+            topDivider
+            rtl={rtl}
+          >
+            <Typography sx={bodyStyle}>
+              {resume.summary}
+            </Typography>
+          </ResumeSection>
+        )}
+
+        {resume.experience?.length > 0 && (
+          <ResumeSection title="WORK EXPERIENCE" rtl={rtl}>
+            {resume.experience.map((job, index) => (
+              <Experience
+                key={index}
+                job={job}
+                rtl={rtl}
+              />
+            ))}
+          </ResumeSection>
+        )}
+
+        {resume.education?.length > 0 && (
+          <ResumeSection title="EDUCATION" rtl={rtl}>
+            {resume.education.map((edu, index) => (
+              <EducationItem
+                key={index}
+                edu={edu}
+                rtl={rtl}
+              />
+            ))}
+          </ResumeSection>
+        )}
+
+        {resume.certifications?.length > 0 && (
+          <ResumeSection title="CERTIFICATIONS" rtl={rtl}>
+            {resume.certifications.map(
+              (certification, index) => (
+                <CertificationItem
+                  key={index}
+                  certification={certification}
+                  rtl={rtl}
+                />
+              )
+            )}
+          </ResumeSection>
+        )}
+
+        {resume.skills?.length > 0 && (
+          <ResumeSection title="SKILLS" rtl={rtl}>
+            <Box
+              sx={{
+                width: "100%",
+                display: "flex",
+                flexDirection: "column",
+                gap: "6px",
+                boxSizing: "border-box",
+              }}
+            >
+              {resume.skills.map((skill, index) => {
+                if (typeof skill === "string") {
+                  return (
+                    <Typography
+                      key={index}
+                      component="div"
+                      sx={{
+                        fontFamily:
+                          "Arial, Helvetica, sans-serif",
+                        fontSize: "13.5px",
+                        lineHeight: 1.40,
+                        fontWeight: 700,
+                        color: DARK,
+                        margin: 0,
+                        padding: 0,
+                        overflowWrap: "anywhere",
+                      }}
+                    >
+                      {skill}
+                    </Typography>
+                  );
+                }
+
+                const title =
+                  skill?.title ||
+                  skill?.name ||
+                  skill?.skill ||
+                  "";
+
+                const description =
+                  typeof skill?.description === "string"
+                    ? skill.description.trim()
+                    : typeof skill?.details === "string"
+                      ? skill.details.trim()
+                      : "";
+
+                const bullets = Array.isArray(
+                  skill?.bullets
+                )
+                  ? skill.bullets
+                      .map((bullet) =>
+                        String(bullet || "")
+                          .replace(
+                            /^[\s•●▪◦*-]+/,
+                            ""
+                          )
+                          .trim()
+                      )
+                      .filter(Boolean)
+                  : description
+                      .split(/\n/)
+                      .map((line) =>
+                        String(line || "")
+                          .replace(
+                            /^[\s•●▪◦*-]+/,
+                            ""
+                          )
+                          .trim()
+                      )
+                      .filter(Boolean);
+
+                if (!title) {
+                  return null;
+                }
+
+                return (
+                  <Box
+                    key={index}
+                    sx={{
+                      width: "100%",
+                      margin: 0,
+                      padding: 0,
+                      flexShrink: 0,
+                      boxSizing: "border-box",
+                    }}
+                  >
+                    <Typography
+                      component="div"
+                      sx={{
+                        fontFamily:
+                          "Arial, Helvetica, sans-serif",
+                        fontSize: "13.5px",
+                        lineHeight: 1.40,
+                        fontWeight: 700,
+                        color: DARK,
+                        margin: 0,
+                        padding: 0,
+                        overflowWrap: "anywhere",
+                        wordBreak: "normal",
+                      }}
+                    >
+                      {title}
+                    </Typography>
+
+                    {bullets.length > 0 ? (
+                      <Box
+                        component="ul"
+                        sx={{
+                          margin: 0,
+                          marginTop: "4px",
+                          padding: 0,
+                          paddingLeft: rtl ? 0 : "14px",
+                          paddingRight: rtl ? "14px" : 0,
+                          listStylePosition: "outside",
+                          boxSizing: "border-box",
+                          "& li": {
+                            fontFamily:
+                              "Arial, Helvetica, sans-serif",
+                            fontSize: "13.5px",
+                            lineHeight: 1.38,
+                            fontWeight: 400,
+                            color: DARK,
+                            margin: 0,
+                            marginBottom: "7px",
+                            padding: 0,
+                            paddingLeft: "0px",
+                            overflowWrap: "anywhere",
+                            wordBreak: "normal",
+                          },
+                        }}
+                      >
+                        {bullets.map(
+                          (bullet, bulletIndex) => (
+                            <li key={bulletIndex}>
+                              {bullet}
+                            </li>
+                          )
+                        )}
+                      </Box>
+                    ) : (
+                      description && (
+                        <Typography
+                          component="div"
+                          sx={{
+                            fontFamily:
+                              "Arial, Helvetica, sans-serif",
+                            fontSize: "13.5px",
+                            lineHeight: 1.38,
+                            fontWeight: 400,
+                            color: GREY,
+                            margin: 0,
+                            padding: 0,
+                            overflowWrap: "anywhere",
+                            wordBreak: "normal",
+                          }}
+                        >
+                          {description}
+                        </Typography>
+                      )
+                    )}
+                  </Box>
+                );
+              })}
+            </Box>
+          </ResumeSection>
+        )}
+
+        {resume.languages?.length > 0 && (
+          <ResumeSection title="LANGUAGES" rtl={rtl}>
+            <Box
+              component="ul"
+              sx={{
+                margin: 0,
+                padding: 0,
+                paddingLeft: rtl ? 0 : "14px",
+                          paddingRight: rtl ? "14px" : 0,
+                listStylePosition: "outside",
+                boxSizing: "border-box",
+                "& li": {
+                  fontFamily:
+                    "Arial, Helvetica, sans-serif",
+                  fontSize: "13.5px",
+                  lineHeight: 1.40,
+                  fontWeight: 400,
+                  color: DARK,
+                  margin: 0,
+                  marginBottom: "6px",
+                  padding: 0,
+                  paddingLeft: "0px",
+                  overflowWrap: "anywhere",
+                  wordBreak: "normal",
+                },
+              }}
+            >
+              {resume.languages.map((lang, index) => {
+                if (typeof lang === "string") {
+                  return (
+                    <li key={index}>
+                      {lang}
+                    </li>
+                  );
+                }
+
+                const name =
+                  lang?.name ||
+                  lang?.language ||
+                  "";
+
+                const level =
+                  lang?.level ||
+                  "";
+
+                if (!name) {
+                  return null;
+                }
+
+                return (
+                  <li key={index}>
+                    {level
+                      ? `${name} (${level})`
+                      : name}
+                  </li>
+                );
+              })}
+            </Box>
+          </ResumeSection>
+        )}
+      </Box>
+    </ResumePage>
+  );
+}
+
+function DividerLine() {
+  return (
+    <Box
+      sx={{
+        width: "100%",
+        height: "1.5px", // bumped from 0.8px - sub-pixel bars can vanish/anti-alias
+        // away when html2canvas rasterizes at scale 1, especially in
+        // a Capacitor Android WebView.
+        backgroundColor: ACCENT,
+        margin: 0,
+        padding: 0,
+        flexShrink: 0,
+        boxSizing: "border-box",
+      }}
+    />
+  );
+}
+
+function ResumeSection({
+  title,
+  children,
+  topDivider = false,
+  rtl = false,
+}) {
+  return (
+    <Box
+      sx={{
+        width: "100%",
+        flexShrink: 0,
+        marginTop: "12px",
+        marginBottom: "0px",
+        boxSizing: "border-box",
+      }}
+    >
+      {topDivider && (
+        <Box
+          sx={{
+            width: "100%",
+            height: "0px",
+            margin: 0,
+            marginBottom: "0px",
+            flexShrink: 0,
+          }}
+        />
+      )}
+
+      <Typography
+        component="div"
+        sx={{
+          fontFamily:
+            "Arial, Helvetica, sans-serif",
+          fontSize: "13.5px",
+          lineHeight: 1.45,
+          fontWeight: 700,
+          color: ACCENT,
+          textTransform: "uppercase",
+          textAlign: rtl ? "right" : "left",
+          margin: 0,
+          marginBottom: "6px",
+          padding: 0,
+        }}
+      >
+        {title}
+      </Typography>
+
+      <DividerLine />
+
+      <Box
+        sx={{
+          width: "100%",
+          marginTop: "6px",
+          boxSizing: "border-box",
+        }}
+      >
+        {children}
+      </Box>
+    </Box>
+  );
+}
+
+function Experience({ job, rtl = false }) {
+  const title =
+    job.title ||
+    job.job_title ||
+    job.role ||
+    "Job Title";
+
+  const company =
+    job.company || "";
+
+  const location =
+    job.location || "";
+
+  const dates = [
+    job.start_date,
+    job.end_date,
+  ]
+    .filter(Boolean)
+    .join(" – ");
+
+  const bullets = Array.isArray(job.bullets)
+    ? job.bullets
+        .map((bullet) =>
+          String(bullet || "")
+            .replace(
+              /^[\s•●▪◦*-]+/,
+              ""
+            )
+            .trim()
+        )
+        .filter(Boolean)
+    : typeof job.description === "string"
+      ? job.description
+          .split(/\n|\u2022|•/)
+          .map((item) =>
+            item
+              .replace(
+                /^[\s•●▪◦*-]+/,
+                ""
+              )
+              .trim()
+          )
+          .filter(Boolean)
+      : [];
+
+  return (
+    <Box
+      sx={{
+        width: "100%",
+        marginBottom: "6px",
+        flexShrink: 0,
+        boxSizing: "border-box",
+      }}
+    >
+      <Box
+        sx={{
+          width: "100%",
+          display: "grid",
+          gridTemplateColumns:
+            "minmax(0, 1fr) auto",
+          columnGap: "12px",
+          alignItems: "start",
+          boxSizing: "border-box",
+        }}
+      >
+        <Typography
+          component="div"
+          sx={{
+            fontFamily:
+              "Arial, Helvetica, sans-serif",
+            fontSize: "13.5px",
+            lineHeight: 1.42,
+            fontWeight: 700,
+            color: DARK,
+            margin: 0,
+            marginBottom: "1px",
+            padding: 0,
+            overflowWrap: "anywhere",
+            minWidth: 0,
+          }}
+        >
+          {title}
+          {company ? ` — ${company}` : ""}
+        </Typography>
+
+        {dates && (
+          <Typography
+            component="div"
+            sx={{
+              fontFamily:
+                "Arial, Helvetica, sans-serif",
+              fontSize: "13.5px",
+              lineHeight: 1.40,
+              fontWeight: 400,
+              fontStyle: "italic",
+              color: GREY,
+              textAlign: rtl ? "left" : "right",
+              whiteSpace: "nowrap",
+              margin: 0,
+              padding: 0,
+              flexShrink: 0,
+            }}
+          >
+            {dates}
+          </Typography>
+        )}
+      </Box>
+
+      {location && (
+        <Typography
+          component="div"
+          sx={{
+            fontFamily:
+              "Arial, Helvetica, sans-serif",
+            fontSize: "13.5px",
+            lineHeight: 1.40,
+            fontWeight: 400,
+            fontStyle: "italic",
+            color: GREY,
+            margin: 0,
+            marginBottom: "6px",
+            padding: 0,
+            overflowWrap: "anywhere",
+          }}
+        >
+          {location}
+        </Typography>
+      )}
+
+      {bullets.length > 0 && (
+        <Box
+          component="ul"
+          sx={{
+            margin: 0,
+            padding: 0,
+            paddingLeft: rtl ? 0 : "14px",
+                          paddingRight: rtl ? "14px" : 0,
+            listStylePosition: "outside",
+            boxSizing: "border-box",
+            "& li": {
+              fontFamily:
+                "Arial, Helvetica, sans-serif",
+              fontSize: "13.5px",
+              lineHeight: 1.40,
+              fontWeight: 400,
+              color: DARK,
+              margin: 0,
+              marginBottom: "6px",
+              padding: 0,
+              paddingLeft: "0px",
+              overflowWrap: "anywhere",
+              wordBreak: "normal",
+            },
+          }}
+        >
+          {bullets.map(
+            (bullet, bulletIndex) => (
+              <li key={bulletIndex}>
+                {bullet}
+              </li>
+            )
+          )}
+        </Box>
+      )}
+    </Box>
+  );
+}
+
+function EducationItem({ edu, rtl = false }) {
+  const degree =
+    edu.degree ||
+    "Degree";
+
+  const institution =
+    edu.institution ||
+    edu.school ||
+    "";
+
+  const location =
+    edu.location ||
+    "";
+
+  const gradDate =
+    edu.grad_date ||
+    edu.end_date ||
+    edu.date ||
+    "";
+
+  return (
+    <Box
+      sx={{
+        width: "100%",
+        marginBottom: "6px",
+        flexShrink: 0,
+        boxSizing: "border-box",
+      }}
+    >
+      <Box
+        sx={{
+          width: "100%",
+          display: "grid",
+          gridTemplateColumns:
+            "minmax(0, 1fr) auto",
+          columnGap: "12px",
+          alignItems: "start",
+          boxSizing: "border-box",
+        }}
+      >
+        <Typography
+          component="div"
+          sx={{
+            fontFamily:
+              "Arial, Helvetica, sans-serif",
+            fontSize: "13.5px",
+            lineHeight: 1.42,
+            fontWeight: 700,
+            color: DARK,
+            margin: 0,
+            padding: 0,
+            overflowWrap: "anywhere",
+            minWidth: 0,
+          }}
+        >
+          {degree}
+          {institution
+            ? ` — ${institution}`
+            : ""}
+        </Typography>
+
+        {gradDate && (
+          <Typography
+            component="div"
+            sx={{
+              fontFamily:
+                "Arial, Helvetica, sans-serif",
+              fontSize: "13.5px",
+              lineHeight: 1.40,
+              fontWeight: 400,
+              fontStyle: "italic",
+              color: GREY,
+              textAlign: rtl ? "left" : "right",
+              whiteSpace: "nowrap",
+              margin: 0,
+              padding: 0,
+              flexShrink: 0,
+            }}
+          >
+            {gradDate}
+          </Typography>
+        )}
+      </Box>
+
+      {location && (
+        <Typography
+          component="div"
+          sx={{
+            fontFamily:
+              "Arial, Helvetica, sans-serif",
+            fontSize: "13.5px",
+            lineHeight: 1.40,
+            fontWeight: 400,
+            fontStyle: "italic",
+            color: GREY,
+            margin: 0,
+            padding: 0,
+            overflowWrap: "anywhere",
+          }}
+        >
+          {location}
+        </Typography>
+      )}
+    </Box>
+  );
+}
+
+function CertificationItem({ certification, rtl = false }) {
+  if (typeof certification === "string") {
+    return (
+      <Box
+        sx={{
+          width: "100%",
+          marginBottom: "7px",
+          flexShrink: 0,
+          boxSizing: "border-box",
+        }}
+      >
+        <Typography
+          component="div"
+          sx={{
+            fontFamily:
+              "Arial, Helvetica, sans-serif",
+            fontSize: "13.5px",
+            lineHeight: 1.42,
+            fontWeight: 700,
+            color: DARK,
+            margin: 0,
+            padding: 0,
+            overflowWrap: "anywhere",
+          }}
+        >
+          {certification}
+        </Typography>
+      </Box>
+    );
+  }
+
+  const name =
+    certification?.name ||
+    certification?.title ||
+    certification?.certification ||
+    "";
+
+  const issuer =
+    certification?.issuer ||
+    certification?.issuing_organization ||
+    certification?.issuingOrganization ||
+    certification?.organization ||
+    "";
+
+  const issueDate =
+    certification?.issue_date ||
+    certification?.issueDate ||
+    certification?.issued_date ||
+    certification?.issuedDate ||
+    certification?.date ||
+    "";
+
+  const expirationDate =
+    certification?.expiration_date ||
+    certification?.expirationDate ||
+    certification?.expiry_date ||
+    certification?.expiryDate ||
+    "";
+
+  const credentialId =
+    certification?.credential_id ||
+    certification?.credentialId ||
+    certification?.id ||
+    "";
+
+  const credentialUrl =
+    certification?.credential_url ||
+    certification?.credentialUrl ||
+    certification?.url ||
+    "";
+
+  const description =
+    typeof certification?.description === "string"
+      ? certification.description.trim()
+      : typeof certification?.details === "string"
+        ? certification.details.trim()
+        : "";
+
+  const bullets = Array.isArray(
+    certification?.bullets
+  )
+    ? certification.bullets
+        .map((bullet) =>
+          String(bullet || "")
+            .replace(
+              /^[\s•●▪◦*-]+/,
+              ""
+            )
+            .trim()
+        )
+        .filter(Boolean)
+    : description
+        .split(/\n/)
+        .map((line) =>
+          String(line || "")
+            .replace(
+              /^[\s•●▪◦*-]+/,
+              ""
+            )
+            .trim()
+        )
+        .filter(Boolean);
+
+  if (
+    !name &&
+    !issuer &&
+    !issueDate &&
+    !expirationDate &&
+    !credentialId &&
+    !credentialUrl &&
+    !description &&
+    bullets.length === 0
+  ) {
+    return null;
+  }
+
+  const dates = [
+    issueDate,
+    expirationDate
+      ? `Expires ${expirationDate}`
+      : "",
+  ]
+    .filter(Boolean)
+    .join(" – ");
+
+  return (
+    <Box
+      sx={{
+        width: "100%",
+        marginBottom: "6px",
+        flexShrink: 0,
+        boxSizing: "border-box",
+      }}
+    >
+      <Box
+        sx={{
+          width: "100%",
+          display: "grid",
+          gridTemplateColumns:
+            "minmax(0, 1fr) auto",
+          columnGap: "12px",
+          alignItems: "start",
+          boxSizing: "border-box",
+        }}
+      >
+        <Typography
+          component="div"
+          sx={{
+            fontFamily:
+              "Arial, Helvetica, sans-serif",
+            fontSize: "13.5px",
+            lineHeight: 1.42,
+            fontWeight: 700,
+            color: DARK,
+            margin: 0,
+            padding: 0,
+            overflowWrap: "anywhere",
+            minWidth: 0,
+          }}
+        >
+          {name}
+          {issuer ? ` — ${issuer}` : ""}
+        </Typography>
+
+        {dates && (
+          <Typography
+            component="div"
+            sx={{
+              fontFamily:
+                "Arial, Helvetica, sans-serif",
+              fontSize: "13.5px",
+              lineHeight: 1.40,
+              fontWeight: 400,
+              fontStyle: "italic",
+              color: GREY,
+              textAlign: rtl ? "left" : "right",
+              whiteSpace: "nowrap",
+              margin: 0,
+              padding: 0,
+              flexShrink: 0,
+            }}
+          >
+            {dates}
+          </Typography>
+        )}
+      </Box>
+
+      {bullets.length > 0 && (
+        <Box
+          component="ul"
+          sx={{
+            margin: 0,
+            marginTop: "4px",
+            padding: 0,
+            paddingLeft: rtl ? 0 : "14px",
+                          paddingRight: rtl ? "14px" : 0,
+            listStylePosition: "outside",
+            boxSizing: "border-box",
+            "& li": {
+              fontFamily:
+                "Arial, Helvetica, sans-serif",
+              fontSize: "13.5px",
+              lineHeight: 1.38,
+              fontWeight: 400,
+              color: DARK,
+              margin: 0,
+              marginBottom: "7px",
+              padding: 0,
+              paddingLeft: "0px",
+              overflowWrap: "anywhere",
+              wordBreak: "normal",
+            },
+          }}
+        >
+          {bullets.map(
+            (bullet, bulletIndex) => (
+              <li key={bulletIndex}>
+                {bullet}
+              </li>
+            )
+          )}
+        </Box>
+      )}
+
+      {description && bullets.length === 0 && (
+        <Typography
+          component="div"
+          sx={{
+            fontFamily:
+              "Arial, Helvetica, sans-serif",
+            fontSize: "13.5px",
+            lineHeight: 1.38,
+            fontWeight: 400,
+            color: GREY,
+            margin: 0,
+            marginTop: "4px",
+            padding: 0,
+            overflowWrap: "anywhere",
+            wordBreak: "normal",
+          }}
+        >
+          {description}
+        </Typography>
+      )}
+
+      {(credentialId || credentialUrl) && (
+        <Typography
+          component="div"
+          sx={{
+            fontFamily:
+              "Arial, Helvetica, sans-serif",
+            fontSize: "13.5px",
+            lineHeight: 1.38,
+            fontWeight: 400,
+            color: GREY,
+            margin: 0,
+            marginTop: "4px",
+            padding: 0,
+            overflowWrap: "anywhere",
+            wordBreak: "break-word",
+          }}
+        >
+          {credentialId
+            ? `Credential ID: ${credentialId}`
+            : ""}
+          {credentialId && credentialUrl
+            ? " | "
+            : ""}
+          {credentialUrl
+            ? credentialUrl
+            : ""}
+        </Typography>
+      )}
+    </Box>
+  );
+}
+
+const bodyStyle = {
+  fontFamily:
+    "Arial, Helvetica, sans-serif",
+  fontSize: "13.5px",
+  lineHeight: 1.40,
+  fontWeight: 400,
+  color: DARK,
+  margin: 0,
+  padding: 0,
+  overflowWrap: "anywhere",
+  wordBreak: "normal",
+};
+
+export default Canadian;

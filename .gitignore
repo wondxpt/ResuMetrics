@@ -1,0 +1,15 @@
+node_modules/
+dist/
+.cache/
+*.log
+.DS_Store
+.env
+src.zip
+src/theme/useColorMode.zip
+
+android/.gradle/
+android/**/build/
+android/**/local.properties
+*.apk
+
+android/app/src/main/assets/public/
