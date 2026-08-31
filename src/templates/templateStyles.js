@@ -185,6 +185,13 @@ const resumeTheme = {
 
       margin: 0,
       padding: 0,
+
+      // Don't let a section heading print alone at the bottom of a
+      // page with its content pushed to the next one.
+      "@media print": {
+        breakAfter: "avoid",
+        pageBreakAfter: "avoid",
+      },
     },
 
     // ---------------------------------------------------------
@@ -403,6 +410,14 @@ const resumeTheme = {
       flexShrink: 0,
 
       boxSizing: "border-box",
+
+      // Keeps one experience/education/etc. entry from being split
+      // across a page break by the browser's real print pagination
+      // (see pdfGenerator.js's printResume()). Ignored on screen.
+      "@media print": {
+        breakInside: "avoid",
+        pageBreakInside: "avoid",
+      },
     },
 
     // ---------------------------------------------------------

@@ -6,6 +6,7 @@ import AppThemeProvider from "./theme/AppThemeProvider";
 import { LanguageProvider } from "./i18n/LanguageContext";
 
 import "./theme/fonts.css";
+import "./pdf/print.css";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
 

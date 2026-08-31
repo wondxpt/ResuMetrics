@@ -1,0 +1,59 @@
+/* Print isolation for exporting the resume as a REAL, text-based PDF.
+ *
+ * This is the core of the new PDF architecture: we no longer rasterize
+ * the resume to PNG/JPEG and embed that image in a PDF (see the removed
+ * html-to-image/canvas code that used to live in pdfGenerator.js). We
+ * instead hand the resume's own HTML/CSS to the browser/WebView's own
+ * Print engine (window.print() on the web, Android's Print Framework
+ * via WebView.createPrintDocumentAdapter() on native builds - see
+ * NativePdfPrintPlugin.java) and let IT lay out and paginate real text.
+ *
+ * #pdf-print-root (see PrintRoot.jsx) holds an always-mounted, unscaled
+ * copy of the resume. On screen it is not rendered at all. When a print
+ * job starts, we show ONLY that node (and hide the rest of the app),
+ * so what gets printed/exported has no zoom transform, no absolute
+ * positioning, no scroll container - none of the on-screen-only
+ * viewer chrome that made an earlier WebView-print attempt in this
+ * project fragile.
+ */
+
+#pdf-print-root {
+  display: none;
+}
+
+@media print {
+  @page {
+    size: A4;
+    margin: 0;
+  }
+
+  html,
+  body {
+    margin: 0 !important;
+    padding: 0 !important;
+    background: #ffffff !important;
+    height: auto !important;
+    overflow: visible !important;
+  }
+
+  /* Hide the entire interactive app (Preview viewer chrome, navbar,
+     dialogs, everything) ... */
+  body > #root {
+    display: none !important;
+  }
+
+  /* ...and show only the dedicated print copy of the resume. */
+  #pdf-print-root {
+    display: block !important;
+    position: static !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  #pdf-print-root .resume-page {
+    box-shadow: none !important;
+    transform: none !important;
+    position: static !important;
+    margin: 0 !important;
+  }
+}

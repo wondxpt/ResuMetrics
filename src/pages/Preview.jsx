@@ -23,7 +23,7 @@ import RestartAltIcon from "@mui/icons-material/RestartAlt";
 import { useNavigate } from "react-router-dom";
 import { useRef, useState, useEffect } from "react";
 
-import { generatePDF } from "../pdf/pdfGenerator";
+import { printResume } from "../pdf/pdfGenerator";
 import { computeSafePageBreaks } from "../pdf/pagination";
 import TemplateRenderer from "../templates/TemplateRenderer";
 import { useLanguage } from "../i18n/LanguageContext";
@@ -188,44 +188,23 @@ function Preview() {
     setPdfStatus({ loading: true, error: "", success: "" });
 
     try {
-      // The Android native print backend uses this same live .resume-page
-      // DOM as its source. Keep the filename metadata on the element so the
-      // native layer and the browser fallback use the same document name.
-      if (resumePage) {
-        const safeBaseName = String(resume.full_name || "Resume")
-          .trim()
-          .replace(/[^a-z0-9._-]+/gi, "_")
-          .replace(/^_+|_+$/g, "");
-        resumePage.setAttribute(
-          "data-pdf-filename",
-          `${safeBaseName || "Resume"}.pdf`
-        );
-      }
-
-      const result = await generatePDF(resumePage, { mode });
-
-      if (result === "browser-save-cancelled") {
-        setPdfStatus({ loading: false, error: "", success: "" });
-        return;
-      }
-
-      if (result === "browser-share-cancelled") {
-        setPdfStatus({ loading: false, error: "", success: "" });
-        return;
-      }
-
-      const pageText = result?.pageCount > 1
-        ? `${result.pageCount} pages`
-        : "1 page";
+      // printResume() prints the always-mounted #pdf-print-root copy of
+      // the resume (see PrintRoot.jsx), not this on-screen `resumePage`
+      // node directly - it only needed to exist to confirm there is
+      // something to export.
+      const result = await printResume({
+        mode,
+        filename: resume.full_name || "Resume",
+      });
 
       const successMessage =
         result?.deliveryMethod === "android-print"
-          ? `Android PDF/print dialog opened (${pageText}).`
+          ? "Android print/PDF dialog opened."
           : mode === "print"
             ? "Print dialog opened."
             : mode === "share"
-              ? `PDF ready to share (${pageText}).`
-              : `PDF saved (${pageText}).`;
+              ? "Print dialog opened - choose Share from there."
+              : "Print dialog opened - choose Save as PDF.";
 
       setPdfStatus({
         loading: false,

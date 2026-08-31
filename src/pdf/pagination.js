@@ -1,6 +1,12 @@
-// Shared pagination logic used by both the live Preview (to draw page-break
-// guides) and pdfGenerator.js (to slice the exported PDF). Kept framework
-// agnostic (plain DOM + CSSOM) so both callers stay in sync.
+// Estimated pagination used ONLY by the live Preview page, to draw
+// dashed page-break guides and the "N pages" badge as a heads-up for
+// the person editing their resume. The actual exported PDF no longer
+// uses this - real pagination now comes from the browser/WebView's
+// own print engine (see pdfGenerator.js's printResume() and
+// print.css), which paginates real text and is authoritative. This
+// file's output is a same-content estimate for the on-screen guide
+// only and may not land on pixel-identical breaks to the print
+// engine's own page breaks.
 
 // Height of one printed A4 page in CSS px, at the browser's standard
 // 96px-per-inch reference (matches the 210mm x 297mm page used
