@@ -1,5 +1,6 @@
 import { Box, Typography } from "@mui/material";
 import { buildResumeData } from "./defaultResumeData";
+import { resumeTheme } from "./templateStyles";
 import ResumePage from "./ResumePage";
 
 const ACCENT = "#2c3e50";
@@ -21,7 +22,7 @@ function Canadian({ data, demo = false, rtl = false }) {
   return (
     <ResumePage
       sx={{
-        padding: "96px",
+        padding: `${resumeTheme.spacing.pageY} ${resumeTheme.spacing.pageX}`,
         boxSizing: "border-box",
         fontFamily: "Arial, Helvetica, sans-serif",
         color: DARK,
@@ -451,6 +452,10 @@ function ResumeSection({
           margin: 0,
           marginBottom: "6px",
           padding: 0,
+          "@media print": {
+            breakAfter: "avoid",
+            pageBreakAfter: "avoid",
+          },
         }}
       >
         {title}
@@ -523,6 +528,7 @@ function Experience({ job, rtl = false }) {
         marginBottom: "6px",
         flexShrink: 0,
         boxSizing: "border-box",
+      "@media print": { breakInside: "avoid", pageBreakInside: "avoid" },
       }}
     >
       <Box
@@ -666,6 +672,7 @@ function EducationItem({ edu, rtl = false }) {
         marginBottom: "6px",
         flexShrink: 0,
         boxSizing: "border-box",
+      "@media print": { breakInside: "avoid", pageBreakInside: "avoid" },
       }}
     >
       <Box
@@ -755,6 +762,7 @@ function CertificationItem({ certification, rtl = false }) {
           marginBottom: "7px",
           flexShrink: 0,
           boxSizing: "border-box",
+        "@media print": { breakInside: "avoid", pageBreakInside: "avoid" },
         }}
       >
         <Typography
@@ -878,6 +886,7 @@ function CertificationItem({ certification, rtl = false }) {
         marginBottom: "6px",
         flexShrink: 0,
         boxSizing: "border-box",
+      "@media print": { breakInside: "avoid", pageBreakInside: "avoid" },
       }}
     >
       <Box

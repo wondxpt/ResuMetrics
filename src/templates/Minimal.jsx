@@ -444,6 +444,10 @@ function MinimalSection({
           margin: 0,
           marginBottom: "6px",
           padding: 0,
+          "@media print": {
+            breakAfter: "avoid",
+            pageBreakAfter: "avoid",
+          },
         }}
       >
         {title}
@@ -518,6 +522,7 @@ function ExperienceItem({ job }) {
         marginBottom: "6px",
         flexShrink: 0,
         boxSizing: "border-box",
+      "@media print": { breakInside: "avoid", pageBreakInside: "avoid" },
       }}
     >
       <Box
@@ -663,6 +668,7 @@ function EducationItem({ edu }) {
         marginBottom: "6px",
         flexShrink: 0,
         boxSizing: "border-box",
+      "@media print": { breakInside: "avoid", pageBreakInside: "avoid" },
       }}
     >
       <Box
@@ -752,6 +758,7 @@ function CertificationItem({ certification }) {
           marginBottom: "7px",
           flexShrink: 0,
           boxSizing: "border-box",
+        "@media print": { breakInside: "avoid", pageBreakInside: "avoid" },
         }}
       >
         <Typography
@@ -876,6 +883,7 @@ function CertificationItem({ certification }) {
         marginBottom: "6px",
         flexShrink: 0,
         boxSizing: "border-box",
+      "@media print": { breakInside: "avoid", pageBreakInside: "avoid" },
       }}
     >
       <Box

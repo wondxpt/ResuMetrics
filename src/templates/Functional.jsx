@@ -1,12 +1,13 @@
 import { Box, Typography } from "@mui/material";
 import { buildResumeData } from "./defaultResumeData";
+import { resumeTheme } from "./templateStyles";
 import ResumePage from "./ResumePage";
 
 const ACCENT = "#6d28d9";
 const DARK = "#1a1a1a";
 const GREY = "#555555";
 
-function Functional({ data, demo = false }) {
+function Functional({ data, demo = false, rtl = false }) {
   const resume = buildResumeData(data || {}, demo);
 
   const contactLine = [
@@ -21,7 +22,7 @@ function Functional({ data, demo = false }) {
   return (
     <ResumePage
       sx={{
-        padding: "96px",
+        padding: `${resumeTheme.spacing.pageY} ${resumeTheme.spacing.pageX}`,
         boxSizing: "border-box",
         fontFamily: "Arial, Helvetica, sans-serif",
         color: DARK,
@@ -461,6 +462,10 @@ function ResumeSection({
           margin: 0,
           marginBottom: "6px",
           padding: 0,
+          "@media print": {
+            breakAfter: "avoid",
+            pageBreakAfter: "avoid",
+          },
         }}
       >
         {title}
@@ -534,6 +539,7 @@ function Experience({ job }) {
         marginBottom: "6px",
         flexShrink: 0,
         boxSizing: "border-box",
+      "@media print": { breakInside: "avoid", pageBreakInside: "avoid" },
       }}
     >
       <Box
@@ -678,6 +684,7 @@ function EducationItem({ edu }) {
         marginBottom: "6px",
         flexShrink: 0,
         boxSizing: "border-box",
+      "@media print": { breakInside: "avoid", pageBreakInside: "avoid" },
       }}
     >
       <Box
@@ -767,6 +774,7 @@ function CertificationItem({ certification }) {
           marginBottom: "7px",
           flexShrink: 0,
           boxSizing: "border-box",
+        "@media print": { breakInside: "avoid", pageBreakInside: "avoid" },
         }}
       >
         <Typography
@@ -892,6 +900,7 @@ function CertificationItem({ certification }) {
         marginBottom: "6px",
         flexShrink: 0,
         boxSizing: "border-box",
+      "@media print": { breakInside: "avoid", pageBreakInside: "avoid" },
       }}
     >
       <Box

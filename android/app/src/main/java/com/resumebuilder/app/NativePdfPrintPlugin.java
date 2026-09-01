@@ -16,35 +16,64 @@ import com.getcapacitor.annotation.CapacitorPlugin;
 /**
  * Native Android PDF/print bridge.
  *
- * REWRITTEN: this used to receive already-rasterized PDF bytes (a PNG
- * screenshot of the resume, wrapped in a PDF) from the JS side and just
- * stream those bytes into Android's print pipeline. That produced an
- * image-only PDF with no real text layer - not selectable, not
- * searchable, poor ATS compatibility.
+ * REWRITTEN (again): a real, text-based PDF (not a screenshot/image -
+ * see src/pdf/print.css for why that matters for ATS parsing) can only
+ * come from the WebView's own PrintDocumentAdapter
+ * (WebView.createPrintDocumentAdapter()). Driving that adapter's
+ * onLayout()/onWrite() directly - i.e. skipping the system print UI
+ * entirely for a silent "save straight to Downloads" or "open the
+ * share sheet directly" - requires constructing
+ * PrintDocumentAdapter.LayoutResultCallback / WriteResultCallback
+ * instances. Those two classes can only be instantiated by the Android
+ * print framework itself; their constructors are not accessible to
+ * app code outside the android.print package (that produces a build
+ * error: "LayoutResultCallback() is not public ... cannot be accessed
+ * from outside package"). There is no supported way around this -
+ * reflection can bypass the compiler, but the same constructor is also
+ * on Android's restricted "non-SDK interface" list from API 28+, so a
+ * reflection-based build would still fail (or silently misbehave) on
+ * most real devices.
  *
- * This version instead asks the app's OWN live WebView (the one
- * already rendering this page) to print ITSELF via
- * WebView.createPrintDocumentAdapter() - Android's standard, documented
- * mechanism for turning a WebView's HTML/CSS into a real, text-based
- * PDF. The WebView's own layout/text engine paginates and shapes
- * glyphs, exactly as it does on screen.
- *
- * This intentionally revives (in a more robust form) an earlier
- * `printHtml` approach that printed the live WebView directly and was
- * abandoned for being fragile: on-screen-only styling on an ancestor of
- * the resume (scroll containers, zoom wrappers, viewport-relative
- * heights) could leak into the print layout pass and push content onto
- * a spurious extra page. The fix is not to avoid WebView printing - it
- * is proper CSS isolation: see src/pdf/print.css and
- * src/pdf/PrintRoot.jsx on the JS side, which print a second, always
- * unscaled, non-absolutely-positioned copy of the resume instead of the
- * interactive Preview viewer's own DOM.
+ * So the ONLY officially supported way to get a real PDF out of the
+ * WebView is PrintManager.print(), which always shows the system print
+ * UI. All three actions below (Print / Save / Share) therefore hand
+ * the adapter to PrintManager and let the person finish from there -
+ * "Save as PDF" and a Share icon are both built into that system
+ * screen on stock Android. What's still genuinely distinct per action
+ * is the print job's *name* the JS side passes in.
  */
 @CapacitorPlugin(name = "NativePdfPrint")
 public class NativePdfPrintPlugin extends Plugin {
 
     @PluginMethod()
     public void printCurrentPage(final PluginCall call) {
+        printViaSystemDialog(call, "Android could not start the PDF print job.");
+    }
+
+    @PluginMethod()
+    public void savePdfDirect(final PluginCall call) {
+        // No storage permission needed here (and none is declared on
+        // this plugin) - PrintManager/the system "Save as PDF" printer
+        // handles the destination itself via its own picker, the same
+        // way it would for any other app's Print/Export-to-PDF menu
+        // item.
+        printViaSystemDialog(call, "Android could not start the PDF save.");
+    }
+
+    @PluginMethod()
+    public void sharePdf(final PluginCall call) {
+        printViaSystemDialog(call, "Android could not start the PDF share.");
+    }
+
+    /**
+     * Shared implementation for all three JS-facing actions: hands the
+     * WebView's real PrintDocumentAdapter to PrintManager, which shows
+     * Android's system print UI (Print / Save as PDF / Share are all
+     * reachable from there). `call` resolves as soon as the job has
+     * been handed off - same as before, this does not (and cannot)
+     * wait for the person to finish interacting with that system UI.
+     */
+    private void printViaSystemDialog(final PluginCall call, final String failureMessage) {
         final String jobNameInput = call.getString("jobName", "Resume");
 
         final Activity activity = getActivity();
@@ -74,22 +103,30 @@ public class NativePdfPrintPlugin extends Plugin {
 
                 PrintDocumentAdapter adapter = webView.createPrintDocumentAdapter(jobName);
 
-                PrintAttributes attributes = new PrintAttributes.Builder()
-                    .setMediaSize(PrintAttributes.MediaSize.ISO_A4)
-                    .setColorMode(PrintAttributes.COLOR_MODE_COLOR)
-                    .setMinMargins(PrintAttributes.Margins.NO_MARGINS)
-                    .build();
-
-                printManager.print(jobName, adapter, attributes);
+                printManager.print(jobName, adapter, buildPrintAttributes());
 
                 JSObject result = new JSObject();
                 result.put("started", true);
                 result.put("jobName", jobName);
+                result.put("fileName", jobName + ".pdf");
                 call.resolve(result);
             } catch (Exception ex) {
-                call.reject("Android could not start the PDF print job.", ex);
+                call.reject(failureMessage, ex);
             }
         });
+    }
+
+    private PrintAttributes buildPrintAttributes() {
+        // NO_MARGINS here is intentional and matches printCurrentPage():
+        // the resume's own @page CSS margin (see src/pdf/print.css)
+        // already reserves a real 15mm border on every printed page.
+        // Asking Android's print attributes for a margin ON TOP of that
+        // would double it up.
+        return new PrintAttributes.Builder()
+            .setMediaSize(PrintAttributes.MediaSize.ISO_A4)
+            .setColorMode(PrintAttributes.COLOR_MODE_COLOR)
+            .setMinMargins(PrintAttributes.Margins.NO_MARGINS)
+            .build();
     }
 
     private String sanitizeJobName(String value) {

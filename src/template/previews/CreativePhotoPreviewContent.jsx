@@ -13,7 +13,7 @@ const demoData = {
   linkedin: "linkedin.com/in/michaelanderson",
 
   summary:
-    "Results-driven Senior Business Analyst with 8+ years of experience translating business requirements into practical technology and process improvements. Strong background in stakeholder management, data analysis, process optimization, and cross-functional project delivery.",
+    "Senior Business Analyst with 8+ years of experience in business analysis and process improvement.",
 
   experience: [
     {
@@ -25,7 +25,6 @@ const demoData = {
       bullets: [
         "Led requirements gathering and business analysis initiatives across multiple enterprise projects.",
         "Improved reporting workflows and reduced manual processing time by approximately 25%.",
-        "Collaborated with product, engineering, finance, and operations teams to deliver business solutions.",
       ],
     },
     {
@@ -37,7 +36,6 @@ const demoData = {
       bullets: [
         "Analyzed operational processes and identified opportunities for efficiency and cost reduction.",
         "Prepared business requirements, process documentation, and functional specifications.",
-        "Supported project teams throughout implementation and testing.",
       ],
     },
     {
@@ -49,7 +47,6 @@ const demoData = {
       bullets: [
         "Supported senior analysts with requirements gathering, documentation, and data analysis.",
         "Created reports and dashboards using Microsoft Excel and SQL.",
-        "Assisted project teams with testing, issue tracking, and stakeholder communication.",
       ],
     },
   ],
@@ -90,20 +87,6 @@ const demoData = {
       bullets: [
         "Scrum framework and Agile principles",
         "Facilitation and Scrum team practices",
-      ],
-    },
-    {
-      name: "Microsoft Certified: Power BI Data Analyst Associate",
-      issuer: "Microsoft",
-      issue_date: "2023",
-      expiration_date: "2025",
-      credential_id: "PL-300-923817",
-      credential_url: "https://learn.microsoft.com/",
-      description:
-        "Certification focused on data preparation, modeling, visualization, and analysis using Microsoft Power BI.",
-      bullets: [
-        "Data modeling and visualization",
-        "Business intelligence and reporting",
       ],
     },
   ],
@@ -599,7 +582,7 @@ function CreativePhotoPreviewContent() {
                         "& li": {
                           fontSize: "13.5px",
                           lineHeight:
-                            "12px",
+                            "18px",
                           color:
                             "#1a1a1a",
                           marginBottom:
@@ -784,7 +767,7 @@ function CreativePhotoPreviewContent() {
                           sx={{
                             fontSize: "13.5px",
                             lineHeight:
-                              "12px",
+                              "18px",
                             color:
                               "#555555",
                             marginTop:
@@ -828,7 +811,7 @@ function CreativePhotoPreviewContent() {
                         "& li": {
                           fontSize: "13.5px",
                           lineHeight:
-                            "12px",
+                            "18px",
                           color:
                             "#1a1a1a",
                           marginBottom:
@@ -865,7 +848,7 @@ function CreativePhotoPreviewContent() {
                         sx={{
                           fontSize: "13.5px",
                           lineHeight:
-                            "12px",
+                            "18px",
                           color:
                             "#555555",
                           marginTop:
@@ -887,7 +870,7 @@ function CreativePhotoPreviewContent() {
                       sx={{
                         fontSize: "13.5px",
                         lineHeight:
-                          "12px",
+                          "18px",
                         color:
                           "#9d174d",
                         marginTop:
@@ -915,19 +898,18 @@ function CreativePhotoPreviewContent() {
 
 const sidebarTextStyle = {
   fontSize: "13.5px",
-  lineHeight: 1.45,
+  lineHeight: 1.33,
   color: "#fce7f3",
   margin: 0,
   marginBottom: "5px",
   overflowWrap: "anywhere",
   wordBreak: "break-word",
-  fontFamily:
-    "Helvetica, Arial, sans-serif",
+  fontFamily: "Helvetica, Arial, sans-serif",
 };
 
 const jobTitleStyle = {
   fontSize: "13.5px",
-  lineHeight: "14px",
+  lineHeight: "18px",
   fontWeight: 700,
   color: "#1a1a1a",
   margin: 0,
@@ -938,7 +920,7 @@ const jobTitleStyle = {
 
 const metaStyle = {
   fontSize: "13.5px",
-  lineHeight: "13px",
+  lineHeight: "18px",
   fontWeight: 400,
   fontStyle: "italic",
   color: "#555555",
@@ -950,7 +932,7 @@ const metaStyle = {
 
 const dateStyle = {
   fontSize: "13.5px",
-  lineHeight: "13px",
+  lineHeight: "18px",
   fontWeight: 400,
   fontStyle: "italic",
   color: "#555555",
@@ -963,7 +945,7 @@ const dateStyle = {
 
 const bodyStyle = {
   fontSize: "13.5px",
-  lineHeight: "13px",
+  lineHeight: "18px",
   fontWeight: 400,
   color: "#1a1a1a",
   margin: 0,
@@ -973,3 +955,6 @@ const bodyStyle = {
 };
 
 export default CreativePhotoPreviewContent;
+
+
+

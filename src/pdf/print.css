@@ -22,9 +22,48 @@
 }
 
 @media print {
+  /* IMPORTANT ARCHITECTURE NOTE (A4 margin fix):
+   *
+   * Every template used to fake its own "page margin" by putting
+   * padding (15mm, or 12mm for the two-column layouts) INSIDE the
+   * .resume-page box, while @page itself had margin: 0 (a true
+   * full-bleed 210x297mm printable area).
+   *
+   * That works for a single-page resume, but for anything that spans
+   * two or more PRINTED pages it is wrong: a CSS box's padding only
+   * appears once at its own top edge and once at its own bottom edge -
+   * not once per page it happens to be sliced across by the browser's
+   * print engine. In practice that meant only the very first page got
+   * a top margin and only the very last page got a bottom margin;
+   * every page in between (and the bottom of every page except the
+   * last) had content running flush to the physical paper edge - the
+   * exact "content touches the edge of the page" bug this fix
+   * addresses.
+   *
+   * The correct, browser-native way to get a margin that repeats
+   * identically on every printed page, no matter how many pages the
+   * content spans, is the CSS @page margin box: the browser (and, on
+   * Android, the Chromium-based WebView print pipeline driving
+   * NativePdfPrintPlugin.java) applies it fresh to each physical page
+   * on its own. So:
+   *
+   *   - @page now reserves a real, standard, balanced 15mm margin on
+   *     all four sides, on every page, automatically.
+   *   - .resume-page is resized (print-only) from the full 210x297mm
+   *     physical sheet down to the 180x267mm printable area that
+   *     remains inside that margin, and every template's own
+   *     hand-rolled page padding is zeroed out for print (screen
+   *     preview is untouched and keeps its own look).
+   *
+   * This applies uniformly to all six templates (chronological/
+   * Canadian, combination, functional, minimal, two_column/
+   * ModernTwoColumn, creative_photo/Creative) without needing template-
+   * specific overrides, because every one of them renders a single
+   * ".resume-page" root element.
+   */
   @page {
     size: A4;
-    margin: 0;
+    margin: 15mm;
   }
 
   html,
@@ -55,5 +94,36 @@
     transform: none !important;
     position: static !important;
     margin: 0 !important;
+
+    /* The @page margin above already reserves the 15mm border on
+       every page, so the box itself must now be sized to the
+       printable area (210mm - 2*15mm, 297mm - 2*15mm), not the full
+       physical sheet - and any template's own inline page padding
+       (which used to BE the margin, incorrectly, per the note above)
+       must be zeroed so it doesn't get added on top and shrink the
+       usable text area further. This selector's #id + .class
+       specificity, combined with !important, wins over every
+       template's own inline sx-generated padding/width rules
+       (including the "!important" ones on ModernTwoColumn/Creative),
+       regardless of which px/mm units they were authored in. */
+    width: 180mm !important;
+    min-width: 180mm !important;
+    max-width: 180mm !important;
+    min-height: 267mm !important;
+    padding: 0 !important;
+  }
+
+  /* Never let a section heading print alone at the bottom of a page
+     with its content pushed onto the next one, and never let a
+     resume item (job, degree, certification, sidebar block) be torn
+     across a page break. Most templates already opt individual
+     elements into this via resumeTheme's "@media print" rules, but
+     applying it centrally, for every .resume-page descendant that
+     asks for it via these utility classes, keeps ALL six templates
+     (including the two hand-rolled two-column layouts) consistent
+     even if a given element forgot to import the shared style. */
+  #pdf-print-root .resume-page * {
+    orphans: 3;
+    widows: 3;
   }
 }

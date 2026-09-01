@@ -3,8 +3,10 @@ import { Box, Typography, Divider } from "@mui/material";
 const A4_WIDTH = "210mm";
 const A4_HEIGHT = "297mm";
 
-// معادل تقریبی حاشیه 1 اینچ PDF پایتون
-const PAGE_MARGIN = 75;
+// حاشیه‌ی استاندارد یک برگه‌ی رزومه (نزدیک به 0.6 اینچ) - به اندازه‌ای
+// بزرگ که کادر صفحه شکیل و حرفه‌ای دیده شود، اما آن‌قدر کوچک که محتوا
+// تا بخش Languages در کارت جا شود.
+const PAGE_MARGIN = 58;
 
 function ChronologicalPreviewContent() {
   return (
@@ -17,7 +19,7 @@ function ChronologicalPreviewContent() {
 
         bgcolor: "#ffffff",
 
-        fontFamily: "Helvetica, Arial, sans-serif",
+        fontFamily: "Arial, Helvetica, sans-serif",
         color: "#1a1a1a",
 
         overflow: "hidden",
@@ -74,7 +76,7 @@ function ChronologicalPreviewContent() {
         >
           <Typography
             sx={{
-              fontFamily: "Helvetica, Arial, sans-serif",
+              fontFamily: "Arial, Helvetica, sans-serif",
 
               fontSize: "20px",
               fontWeight: 700,
@@ -97,7 +99,7 @@ function ChronologicalPreviewContent() {
 
           <Typography
             sx={{
-              fontFamily: "Helvetica, Arial, sans-serif",
+              fontFamily: "Arial, Helvetica, sans-serif",
 
               fontSize: "14px",
               fontWeight: 400,
@@ -120,7 +122,7 @@ function ChronologicalPreviewContent() {
 
           <Typography
             sx={{
-              fontFamily: "Helvetica, Arial, sans-serif",
+              fontFamily: "Arial, Helvetica, sans-serif",
 
               fontSize: "13.5px",
               fontWeight: 400,
@@ -231,7 +233,6 @@ function ChronologicalPreviewContent() {
             bullets={[
               "Supported senior analysts with requirements gathering, documentation, and data analysis.",
               "Created reports and dashboards using Microsoft Excel and SQL.",
-              "Assisted project teams with testing, issue tracking, and stakeholder communication.",
             ]}
           />
         </PreviewSection>
@@ -320,8 +321,7 @@ function ChronologicalPreviewContent() {
             credentialId="CBAP-2022-45821"
             credentialUrl="https://www.iiba.org/"
             bullets={[
-              "Advanced business analysis practices",
-              "Requirements analysis and stakeholder management",
+              "Advanced business analysis and stakeholder management practices",
             ]}
           />
 
@@ -330,21 +330,7 @@ function ChronologicalPreviewContent() {
             issuer="Scrum.org"
             issueDate="2021"
             bullets={[
-              "Scrum framework and Agile principles",
-              "Facilitation and Scrum team practices",
-            ]}
-          />
-
-          <Certification
-            name="Microsoft Certified: Power BI Data Analyst Associate"
-            issuer="Microsoft"
-            issueDate="2023"
-            expirationDate="2025"
-            credentialId="PL-300-923817"
-            credentialUrl="https://learn.microsoft.com/"
-            bullets={[
-              "Data modeling and visualization",
-              "Business intelligence and reporting",
+              "Scrum framework, Agile principles, and facilitation",
             ]}
           />
         </PreviewSection>
@@ -416,12 +402,12 @@ function PreviewSection({ title, children }) {
 
         flexShrink: 0,
 
-        mb: "17px",
+        mb: "13px",
       }}
     >
       <Typography
         sx={{
-          fontFamily: "Helvetica, Arial, sans-serif",
+          fontFamily: "Arial, Helvetica, sans-serif",
 
           fontSize: "13.5px",
           fontWeight: 700,
@@ -435,8 +421,8 @@ function PreviewSection({ title, children }) {
 
           borderBottom: "1px solid #2c3e50",
 
-          pb: "4px",
-          mb: "7px",
+          pb: "3px",
+          mb: "6px",
 
           width: "100%",
           maxWidth: "100%",
@@ -470,7 +456,7 @@ function Job({
         width: "100%",
         minWidth: 0,
 
-        mb: "13px",
+        mb: "10px",
 
         "&:last-child": {
           mb: 0,

@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 
 import MainLayout from "../layouts/MainLayout";
 
@@ -46,6 +46,15 @@ function Router() {
           <Route
             path="preview"
             element={<Preview />}
+          />
+
+          {/* Catch-all: any unmatched/garbage path (e.g. a stray
+              copy-pasted Vite terminal URL like "/ \u2794 Network: ...")
+              redirects home instead of leaving a blank "no routes
+              matched" console warning and empty page. */}
+          <Route
+            path="*"
+            element={<Navigate to="/" replace />}
           />
 
         </Route>

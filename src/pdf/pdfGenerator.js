@@ -71,17 +71,21 @@ function buildSuggestedFilename(fullName) {
 }
 
 /**
- * Exports the resume as a real, text-based PDF via the platform's own
- * Print pipeline. `mode` ("save" | "share" | "print") only changes the
- * status text shown to the person - on every platform this opens the
- * SAME native print/save surface (the OS print dialog on the web,
- * Android's Print Framework preview on native builds), because that is
- * the only thing that can produce genuine selectable/searchable text
- * here: there is no headless, dialog-free way to rasterize arbitrary
- * CSS into a real PDF text layer from client-side JS alone. Both the
- * web print dialog and Android's print preview offer their own
- * Save/Share actions, so this is not a regression in capability - it
- * is what "real PDF" costs compared to a silent image screenshot.
+ * Exports the resume as a real, text-based PDF.
+ *
+ * On the web, `mode` only changes the status text shown to the person -
+ * every mode opens the SAME browser print dialog (there is no
+ * headless, dialog-free way to rasterize arbitrary CSS into a real PDF
+ * text layer from client-side JS alone in a browser tab), and the
+ * dialog itself offers Save/Share/Print once open.
+ *
+ * On Android (Capacitor native), all three modes open the same system
+ * print UI (see NativePdfPrintPlugin.java for why a dialog-free path
+ * isn't possible for a real, text-based PDF) - only the print job
+ * *name* differs. Once that system screen is open, "Save as PDF" and
+ * a Share icon are both reachable from it on stock Android, so `mode`
+ * still nudges the person toward the right destination even though it
+ * no longer skips the dialog outright.
  *
  * Returns { deliveryMethod } on success; never throws for a
  * user-cancelled dialog (there is no reliable cross-browser signal for
@@ -92,9 +96,21 @@ export async function printResume({ mode = "save", filename } = {}) {
   const suggestedName = buildSuggestedFilename(filename);
 
   if (isCapacitorAndroidNative()) {
-    await NativePdfPrint.printCurrentPage({
-      jobName: suggestedName,
-    });
+  // All three modes below open Android's system print UI (see
+  // NativePdfPrintPlugin.java's class comment for why). deliveryMethod
+  // still distinguishes them so the caller's status message can say
+  // the right thing.
+  if (mode === "share") {
+      const result = await NativePdfPrint.sharePdf({ jobName: suggestedName });
+      return { deliveryMethod: "android-share", ...result };
+    }
+
+    if (mode === "save") {
+      const result = await NativePdfPrint.savePdfDirect({ jobName: suggestedName });
+      return { deliveryMethod: "android-save", ...result };
+    }
+
+    await NativePdfPrint.printCurrentPage({ jobName: suggestedName });
     return { deliveryMethod: "android-print" };
   }
 

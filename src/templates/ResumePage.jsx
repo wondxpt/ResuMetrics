@@ -45,6 +45,8 @@ function ResumePage({
 
         backgroundColor: "#ffffff",
 
+        border: "1px solid #d1d5db",
+
         display: "flex",
         flexDirection: "column",
 

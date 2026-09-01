@@ -1,4 +1,5 @@
 
+
 // =============================================================
 // Resume Template Styles
 // Based directly on the Python / ReportLab resume generator
@@ -54,46 +55,58 @@ const resumeTheme = {
   // ===========================================================
   page: {
     width: "210mm",
-    height: "297mm",
 
     minWidth: "210mm",
     minHeight: "297mm",
 
     maxWidth: "210mm",
-    maxHeight: "297mm",
+    // No fixed "height" and no "maxHeight" here on purpose: templates
+    // that spread ...resumeTheme.page must be free to grow taller than
+    // one A4 page when content is long. A fixed/max height here would
+    // cap the element's own box at 297mm while its content visually
+    // overflowed past it - which both looks clipped on screen and (more
+    // importantly) breaks pdfGenerator.js's page-count measurement,
+    // since that reads the container's own box height to decide how
+    // many PDF pages to generate.
 
     boxSizing: "border-box",
 
     background: "#ffffff",
 
-    overflow: "hidden",
+    // Must stay visible: a resume taller than one A4 page has to remain
+    // in the document flow so pdfGenerator.js can paginate it onto a
+    // second page instead of the extra content being clipped away.
+    overflow: "visible",
 
     position: "relative",
   },
 
   // ===========================================================
-  // PYTHON / REPORTLAB MARGINS
+  // MARGINS
   //
-  // Standard templates:
-  // 1 inch = 96px ≈ 25.4mm
+  // Reduced from the original 25.4mm (1 inch) / 17.78mm (0.7 inch)
+  // ReportLab values, which ate too much of the printable A4 area
+  // and pushed content to a second page prematurely. These match
+  // common professional resume margin guidance (~0.55"-0.6") while
+  // still leaving a comfortable, print-safe border.
   //
-  // Two-column / Graphic:
-  // 0.7 inch ≈ 17.78mm
+  // Standard templates (single column): 15mm ≈ 0.59 inch
+  // Two-column / Graphic (has its own inner column padding too): 12mm
   // ===========================================================
   margins: {
-    standard: "25.4mm",
-    compact: "17.78mm",
+    standard: "15mm",
+    compact: "12mm",
   },
 
   // ===========================================================
   // SPACING
   // ===========================================================
   spacing: {
-    pageX: "25.4mm",
-    pageY: "25.4mm",
+    pageX: "15mm",
+    pageY: "15mm",
 
-    compactPageX: "17.78mm",
-    compactPageY: "17.78mm",
+    compactPageX: "12mm",
+    compactPageY: "12mm",
 
     section: "12px",
     sectionAfter: "4px",
@@ -492,7 +505,10 @@ const resumeTheme = {
       divider: true,
       dividerThickness: "0.8px",
       banner: false,
-      margin: "25.4mm",
+      // Kept in sync with margins.standard above (this field itself is
+      // not read anywhere in the app today, but is left accurate so it
+      // doesn't mislead anyone who wires it up later).
+      margin: "15mm",
     },
 
     combination: {
@@ -502,7 +518,7 @@ const resumeTheme = {
       divider: true,
       dividerThickness: "1px",
       banner: true,
-      margin: "25.4mm",
+      margin: "15mm",
     },
 
     functional: {
@@ -512,7 +528,7 @@ const resumeTheme = {
       divider: true,
       dividerThickness: "1px",
       banner: false,
-      margin: "25.4mm",
+      margin: "15mm",
     },
 
     two_column: {
@@ -522,7 +538,7 @@ const resumeTheme = {
       divider: false,
       dividerThickness: "0px",
       banner: false,
-      margin: "17.78mm",
+      margin: "12mm",
     },
 
     minimal: {
@@ -532,7 +548,7 @@ const resumeTheme = {
       divider: false,
       dividerThickness: "0px",
       banner: false,
-      margin: "25.4mm",
+      margin: "15mm",
     },
 
     creative_photo: {
@@ -542,7 +558,7 @@ const resumeTheme = {
       divider: false,
       dividerThickness: "0px",
       banner: false,
-      margin: "17.78mm",
+      margin: "12mm",
     },
   },
 };

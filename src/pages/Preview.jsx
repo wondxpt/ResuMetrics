@@ -198,13 +198,17 @@ function Preview() {
       });
 
       const successMessage =
-        result?.deliveryMethod === "android-print"
-          ? "Android print/PDF dialog opened."
-          : mode === "print"
-            ? "Print dialog opened."
-            : mode === "share"
-              ? "Print dialog opened - choose Share from there."
-              : "Print dialog opened - choose Save as PDF.";
+        result?.deliveryMethod === "android-save"
+          ? "Android's print dialog opened - choose 'Save as PDF' to finish."
+          : result?.deliveryMethod === "android-share"
+            ? "Android's print dialog opened - use the Share icon there."
+            : result?.deliveryMethod === "android-print"
+              ? "Android print dialog opened."
+              : mode === "print"
+                ? "Print dialog opened."
+                : mode === "share"
+                  ? "Print dialog opened - choose Share from there."
+                  : "Print dialog opened - choose Save as PDF.";
 
       setPdfStatus({
         loading: false,

@@ -10,8 +10,9 @@ import { UsFlagIcon, CaFlagIcon } from "../components/common/FlagIcons";
 import { useLanguage } from "../i18n/LanguageContext";
 
 // One-letter/glyph "flag" shown per language card - kept purely
-// typographic (no emoji flags) so it renders identically everywhere
-// and stays on-brand with the rest of the app's icon language.
+// typographic (no emoji flags, no per-country flags) so it renders
+// identically everywhere and doesn't imply one "owning" country for
+// languages spoken across many (Arabic, Spanish, English...).
 const LANGUAGE_GLYPH = {
   en: "A",
   fa: "ف",
@@ -46,16 +47,12 @@ function LanguageSelect() {
     <Fade in timeout={420}>
       <Box
         sx={{
-          minHeight: "100vh",
+          position: "relative",
+          minHeight: "100dvh",
           width: "100%",
           display: "flex",
           flexDirection: "column",
-          alignItems: "center",
-          justifyContent: "center",
-          position: "relative",
           overflow: "hidden",
-          px: 3,
-          py: 6,
           backgroundColor: "background.default",
           backgroundImage:
             "radial-gradient(circle at 12% 8%, rgba(90,85,224,0.09) 0%, rgba(90,85,224,0) 42%)," +
@@ -81,138 +78,166 @@ function LanguageSelect() {
           })}
         />
 
+        {/* Scrollable content area. On very short screens this can
+           still scroll internally, but the sticky footer below means
+           the Continue button is always reachable regardless. */}
         <Box
           sx={{
             position: "relative",
-            width: "100%",
-            maxWidth: 640,
+            flex: "1 1 auto",
+            minHeight: 0,
+            overflowY: "auto",
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
+            justifyContent: "center",
+            px: 2.5,
+            pt: { xs: 2, sm: 3.5 },
+            pb: { xs: 1.5, sm: 2.5 },
           }}
         >
-          {/* Brand mark. Just the icon file directly - no wrapper
-             box-shadow. A large blurred box-shadow rendered as a
-             solid dark block on the reported device's WebView
-             instead of a soft glow, so it's removed entirely rather
-             than chasing that per-device quirk. */}
-          <Box sx={{ mb: 2 }}>
-            <Logo size={260} />
-          </Box>
-
-          <Typography
+          <Box
             sx={{
-              fontFamily:
-                '"Inter", "Vazirmatn", "Segoe UI", Arial, sans-serif',
-              fontSize: { xs: "2rem", sm: "2.3rem" },
-              fontWeight: 800,
-              letterSpacing: "-0.02em",
-              textAlign: "center",
-              color: "text.primary",
-              mb: 2.5,
+              position: "relative",
+              width: "100%",
+              maxWidth: 640,
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
             }}
           >
-            ResuMetrics
-          </Typography>
-
-          {/* Value-prop banner - previews in the tapped language, live.
-             Deliberately large/bold per request, with the two flags
-             the product actually targets (US + Canada ATS formats). */}
-          <Box
-            sx={(theme) => ({
-              display: "flex",
-              flexWrap: "wrap",
-              alignItems: "center",
-              justifyContent: "center",
-              rowGap: 0.75,
-              columnGap: 1,
-              width: "100%",
-              px: 2.5,
-              py: 1.5,
-              borderRadius: "16px",
-              mb: 2.5,
-              textAlign: "center",
-              backgroundColor: alpha(theme.palette.primary.main, 0.1),
-              border: "1px solid",
-              borderColor: alpha(theme.palette.primary.main, 0.22),
-            })}
-          >
-            <AutoAwesomeIcon sx={{ fontSize: 22, color: "primary.main", flexShrink: 0 }} />
-            <Box sx={{ display: "flex", alignItems: "center", gap: 0.5, flexShrink: 0 }}>
-              <UsFlagIcon size={22} />
-              <CaFlagIcon size={22} />
+            {/* Brand mark. Just the icon file directly - no wrapper
+               box-shadow. A large blurred box-shadow rendered as a
+               solid dark block on the reported device's WebView
+               instead of a soft glow, so it's removed entirely rather
+               than chasing that per-device quirk. Pixel size (260)
+               is unchanged - only the margin under it is trimmed. */}
+            <Box sx={{ mb: 1 }}>
+              <Logo size={260} />
             </Box>
+
             <Typography
-              dir={languages.find((l) => l.code === language)?.dir || "ltr"}
               sx={{
                 fontFamily:
                   '"Inter", "Vazirmatn", "Segoe UI", Arial, sans-serif',
-                fontSize: { xs: "1.05rem", sm: "1.2rem" },
+                fontSize: { xs: "1.7rem", sm: "2.3rem" },
                 fontWeight: 800,
-                lineHeight: 1.35,
-                color: "primary.main",
+                letterSpacing: "-0.02em",
+                textAlign: "center",
+                color: "text.primary",
+                mb: 1.25,
               }}
             >
-              {t("languageSelect.tagline")}
+              ResuMetrics
             </Typography>
-          </Box>
 
-          <Typography
-            sx={{
-              fontFamily:
-                '"Inter", "Vazirmatn", "Segoe UI", Arial, sans-serif',
-              fontSize: "1.95rem",
-              fontWeight: 800,
-              letterSpacing: "-0.02em",
-              textAlign: "center",
-              mb: 1.25,
-              backgroundImage:
-                "linear-gradient(135deg, #5A55E0 0%, #4338CA 60%, #362DB0 100%)",
-              backgroundClip: "text",
-              WebkitBackgroundClip: "text",
-              WebkitTextFillColor: "transparent",
-              color: "text.primary",
-            }}
-          >
-            {t("languageSelect.title")}
-          </Typography>
+            {/* Value-prop banner - previews in the tapped language, live.
+               Deliberately large/bold per request, with the two flags
+               the product actually targets (US + Canada ATS formats). */}
+            <Box
+              sx={(theme) => ({
+                display: "flex",
+                flexWrap: "wrap",
+                alignItems: "center",
+                justifyContent: "center",
+                rowGap: 0.5,
+                columnGap: 1,
+                width: "100%",
+                px: 2,
+                py: 0.85,
+                borderRadius: "14px",
+                mb: 1.5,
+                textAlign: "center",
+                backgroundColor: alpha(theme.palette.primary.main, 0.1),
+                border: "1px solid",
+                borderColor: alpha(theme.palette.primary.main, 0.22),
+              })}
+            >
+              <AutoAwesomeIcon
+                sx={{ fontSize: 22, color: "primary.main", flexShrink: 0 }}
+              />
+              <Box
+                sx={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: 0.5,
+                  flexShrink: 0,
+                }}
+              >
+                <UsFlagIcon size={22} />
+                <CaFlagIcon size={22} />
+              </Box>
+              <Typography
+                dir={languages.find((l) => l.code === language)?.dir || "ltr"}
+                sx={{
+                  fontFamily:
+                    '"Inter", "Vazirmatn", "Segoe UI", Arial, sans-serif',
+                  fontSize: { xs: "0.92rem", sm: "1.1rem" },
+                  fontWeight: 800,
+                  lineHeight: 1.3,
+                  color: "primary.main",
+                }}
+              >
+                {t("languageSelect.tagline")}
+              </Typography>
+            </Box>
 
-          <Typography
-            sx={{
-              fontFamily:
-                '"Inter", "Vazirmatn", "Segoe UI", Arial, sans-serif',
-              color: "text.secondary",
-              textAlign: "center",
-              maxWidth: 420,
-              mb: 5,
-              fontSize: "0.98rem",
-              lineHeight: 1.65,
-            }}
-          >
-            {t("languageSelect.subtitle")}
-          </Typography>
+            <Typography
+              sx={{
+                fontFamily:
+                  '"Inter", "Vazirmatn", "Segoe UI", Arial, sans-serif',
+                fontSize: { xs: "1.55rem", sm: "1.95rem" },
+                fontWeight: 800,
+                letterSpacing: "-0.02em",
+                textAlign: "center",
+                mb: 0.6,
+                backgroundImage:
+                  "linear-gradient(135deg, #5A55E0 0%, #4338CA 60%, #362DB0 100%)",
+                backgroundClip: "text",
+                WebkitBackgroundClip: "text",
+                WebkitTextFillColor: "transparent",
+                color: "text.primary",
+              }}
+            >
+              {t("languageSelect.title")}
+            </Typography>
 
-          {/* Language grid - every card keeps the same internal layout
-             order (glyph, label, radio) regardless of the language's
-             own reading direction, so the grid stays visually even
-             instead of mirroring per-row. Only the label text itself
-             switches direction. */}
-          <Box
-            sx={{
-              display: "grid",
-              gridTemplateColumns: {
-                xs: "repeat(2, 1fr)",
-                sm: "repeat(3, 1fr)",
-              },
-              gap: 1.5,
-              width: "100%",
-            }}
-          >
-            {languages.map((lang) => {
-              const isSelected = selected === lang.code;
-              const isHovered = hovered === lang.code;
+            <Typography
+              sx={{
+                fontFamily:
+                  '"Inter", "Vazirmatn", "Segoe UI", Arial, sans-serif',
+                color: "text.secondary",
+                textAlign: "center",
+                maxWidth: 480,
+                mb: { xs: 1.75, sm: 3 },
+                fontSize: { xs: "0.82rem", sm: "0.98rem" },
+                lineHeight: 1.4,
+              }}
+            >
+              {t("languageSelect.subtitle")}
+            </Typography>
 
-              return (
+            {/* Language grid - every card keeps the same internal layout
+               order (glyph, label, radio) regardless of the language's
+               own reading direction, so the grid stays visually even
+               instead of mirroring per-row. Only the label text itself
+               switches direction. */}
+            <Box
+              sx={{
+                display: "grid",
+                gridTemplateColumns: {
+                  xs: "repeat(2, 1fr)",
+                  sm: "repeat(3, 1fr)",
+                },
+                gap: { xs: 1, sm: 1.5 },
+                width: "100%",
+              }}
+            >
+              {languages.map((lang) => {
+                const isSelected = selected === lang.code;
+                const isHovered = hovered === lang.code;
+
+                return (
                   <Box
                     key={lang.code}
                     component="button"
@@ -225,7 +250,7 @@ function LanguageSelect() {
                       width: "100%",
                       minWidth: 0,
                       boxSizing: "border-box",
-                      height: 66,
+                      height: { xs: 52, sm: 60 },
                       cursor: "pointer",
                       textAlign: "start",
                       fontFamily: "inherit",
@@ -239,14 +264,14 @@ function LanguageSelect() {
                       backgroundColor: isSelected
                         ? alpha(theme.palette.primary.main, 0.12)
                         : "background.paper",
-                      px: 2,
-                      py: 1.75,
+                      px: 1.5,
+                      py: 1.25,
                       display: "flex",
                       alignItems: "center",
                       gap: 1.5,
                       position: "relative",
                       boxShadow: isSelected
-                        ? "0 1px 3px rgba(67,56,202,0.14), 0 4px 10px rgba(67,56,202,0.10)"
+                        ? "0 1px 3px rgba(67,56,202,0.16), 0 5px 14px rgba(67,56,202,0.14)"
                         : isHovered
                         ? "0 2px 6px rgba(15,18,34,0.08)"
                         : "0 1px 2px rgba(15,18,34,0.05)",
@@ -257,6 +282,17 @@ function LanguageSelect() {
                       transition:
                         "border-color 160ms ease, background-color 160ms ease, box-shadow 160ms ease, transform 160ms ease",
                       outline: "none",
+                      // Small "pop" the moment a card becomes selected -
+                      // a quick, professional micro-interaction rather
+                      // than an abrupt color swap.
+                      "@keyframes cardSelectPop": {
+                        "0%": { transform: "scale(0.97)" },
+                        "55%": { transform: "scale(1.015)" },
+                        "100%": { transform: "scale(1)" },
+                      },
+                      animation: isSelected
+                        ? "cardSelectPop 240ms cubic-bezier(0.34, 1.56, 0.64, 1)"
+                        : "none",
                       "&:focus-visible": {
                         boxShadow: `0 0 0 4px ${alpha(theme.palette.primary.main, 0.16)}, 0 1px 2px rgba(67,56,202,0.20)`,
                       },
@@ -265,9 +301,9 @@ function LanguageSelect() {
                     <Box
                       sx={{
                         flexShrink: 0,
-                        width: 34,
-                        height: 34,
-                        borderRadius: "10px",
+                        width: 30,
+                        height: 30,
+                        borderRadius: "9px",
                         display: "flex",
                         alignItems: "center",
                         justifyContent: "center",
@@ -321,19 +357,49 @@ function LanguageSelect() {
                         borderColor: "grey.300",
                         transition:
                           "background-color 160ms ease, border-color 160ms ease",
+                        "@keyframes checkPop": {
+                          "0%": { transform: "scale(0)" },
+                          "70%": { transform: "scale(1.2)" },
+                          "100%": { transform: "scale(1)" },
+                        },
+                        animation: isSelected
+                          ? "checkPop 260ms cubic-bezier(0.34, 1.56, 0.64, 1)"
+                          : "none",
                       }}
                     >
                       {isSelected && (
-                        <CheckIcon
-                          sx={{ fontSize: 13, color: "#fff" }}
-                        />
+                        <CheckIcon sx={{ fontSize: 13, color: "#fff" }} />
                       )}
                     </Box>
                   </Box>
-              );
-            })}
+                );
+              })}
+            </Box>
           </Box>
+        </Box>
 
+        {/* Sticky CTA footer - stays reachable with one thumb no
+           matter how tall the content above ends up being, and keeps
+           the button off a scrollable area. Frosted/blurred so the
+           grid content behind it feels continuous rather than cut
+           off by a hard edge. */}
+        <Box
+          sx={(theme) => ({
+            position: "relative",
+            flexShrink: 0,
+            width: "100%",
+            display: "flex",
+            justifyContent: "center",
+            px: 2.5,
+            pt: 1.5,
+            pb: "calc(env(safe-area-inset-bottom, 0px) + 14px)",
+            backgroundColor: alpha(theme.palette.background.default, 0.9),
+            backdropFilter: "blur(10px)",
+            WebkitBackdropFilter: "blur(10px)",
+            borderTop: "1px solid",
+            borderColor: theme.palette.divider,
+          })}
+        >
           <Button
             variant="contained"
             size="large"
@@ -341,12 +407,15 @@ function LanguageSelect() {
             onClick={handleContinue}
             endIcon={<ArrowForwardIcon />}
             sx={{
-              mt: 4.5,
+              width: "100%",
+              maxWidth: 420,
               px: 4.5,
-              minWidth: 200,
               background: selected
                 ? "linear-gradient(135deg, #5A55E0 0%, #4338CA 100%)"
                 : undefined,
+              boxShadow: selected
+                ? "0 6px 16px rgba(67,56,202,0.28)"
+                : "none",
               "&:hover": {
                 background: selected
                   ? "linear-gradient(135deg, #4F4AD1 0%, #362DB0 100%)"

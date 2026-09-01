@@ -26,11 +26,13 @@ function TemplatePreviewCard({ children }) {
 
         boxSizing: "border-box",
 
+        border: "1px solid #d1d5db",
+
         overflow: "hidden",
 
         flex: "0 0 auto",
 
-        fontFamily: "Helvetica, Arial, sans-serif",
+        fontFamily: "Arial, Helvetica, sans-serif",
 
         // تمام عناصر داخل صفحه
         "& *": {
@@ -54,7 +56,7 @@ function TemplatePreviewCard({ children }) {
 
           boxSizing: "border-box !important",
 
-          overflow: "hidden !important",
+          overflow: "visible !important",
 
           transform: "none !important",
         },

@@ -38,12 +38,12 @@ function Creative({ data, demo = false }) {
       sx={{
         ...resumeTheme.page,
 
-        width: "100% !important",
+        width: "210mm !important",
 
-        minWidth: "0 !important",
+        minWidth: "210mm !important",
         minHeight: "297mm !important",
 
-        maxWidth: "100% !important",
+        maxWidth: "210mm !important",
         // No fixed/max height here on purpose: this two-column layout
         // must be able to grow past one A4 page when content is long,
         // instead of silently clipping it.
@@ -55,6 +55,13 @@ function Creative({ data, demo = false }) {
         alignItems: "stretch",
         justifyContent: "flex-start",
 
+        // No page-level padding here on purpose: the pink sidebar
+        // below must reach the physical edges of the page (top,
+        // outer side, and bottom) with no white margin around it,
+        // matching the picker card preview. Only the right/main
+        // content column keeps its own inset (see its padding
+        // below) - the sidebar keeps its own internal padding for
+        // breathing room instead of relying on page margin.
         padding: 0,
 
         overflow: "visible",
@@ -408,6 +415,8 @@ function CreativeSidebarSection({
         flexShrink: 0,
 
         boxSizing: "border-box",
+
+        ...printAvoidBreak,
       }}
     >
       <Typography
@@ -489,6 +498,16 @@ function CreativeMainSection({
           marginBottom: "6px",
 
           padding: 0,
+
+          // Was missing on this hand-rolled section header, unlike
+          // resumeTheme.typography.sectionTitle used by the other five
+          // templates: without it a section title could print as the
+          // very last line on a page with all of its content pushed
+          // onto the next one.
+          "@media print": {
+            breakAfter: "avoid",
+            pageBreakAfter: "avoid",
+          },
         }}
       >
         {title}
@@ -523,6 +542,19 @@ function CreativeMainSection({
     </Box>
   );
 }
+
+// Shared "don't split this in the middle of a print page" rule - was
+// missing from every Creative.* item wrapper below (Experience,
+// Education, Certification), unlike the single-column templates which
+// get it for free via resumeTheme.elements.item. Without it the print
+// engine was free to cut a job/degree/certification block in half
+// across a page boundary.
+const printAvoidBreak = {
+  "@media print": {
+    breakInside: "avoid",
+    pageBreakInside: "avoid",
+  },
+};
 
 function CreativeExperience({ job }) {
   const title =
@@ -579,6 +611,8 @@ function CreativeExperience({ job }) {
         boxSizing: "border-box",
 
         flexShrink: 0,
+
+        ...printAvoidBreak,
       }}
     >
       <Box
@@ -757,6 +791,8 @@ function CreativeEducation({
         boxSizing: "border-box",
 
         flexShrink: 0,
+
+        ...printAvoidBreak,
       }}
     >
       <Box
@@ -874,6 +910,8 @@ function CreativeCertification({
           marginBottom: "6px",
 
           boxSizing: "border-box",
+
+          ...printAvoidBreak,
         }}
       >
         <Typography
@@ -999,6 +1037,8 @@ function CreativeCertification({
         boxSizing: "border-box",
 
         flexShrink: 0,
+
+        ...printAvoidBreak,
       }}
     >
       <Box

@@ -1,5 +1,6 @@
 import { Box, Typography } from "@mui/material";
 import { buildResumeData } from "../templates/defaultResumeData";
+import { resumeTheme } from "./templateStyles";
 
 function CombinationPreviewContent({ data = {}, demo = false }) {
   const resume = buildResumeData(data, demo);
@@ -37,8 +38,8 @@ function CombinationPreviewContent({ data = {}, demo = false }) {
         boxSizing: "border-box",
         overflow: "visible",
 
-        px: "75px",
-        py: "75px",
+        px: resumeTheme.spacing.pageX,
+        py: resumeTheme.spacing.pageY,
 
         fontFamily: "Arial, Helvetica, sans-serif",
         color: "#1a1a1a",
@@ -156,7 +157,7 @@ function CombinationPreviewContent({ data = {}, demo = false }) {
 
               borderRadius: "0px",
 
-              overflow: "hidden",
+              overflow: "visible",
             }}
           >
             <Typography
@@ -408,6 +409,11 @@ function ResumeSection({ title, children }) {
           letterSpacing: "0.2px",
 
           overflowWrap: "anywhere",
+
+          "@media print": {
+            breakAfter: "avoid",
+            pageBreakAfter: "avoid",
+          },
         }}
       >
         {title}

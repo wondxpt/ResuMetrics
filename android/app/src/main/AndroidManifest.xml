@@ -38,4 +38,14 @@
     <!-- Permissions -->
 
     <uses-permission android:name="android.permission.INTERNET" />
+
+    <!-- Only needed to write directly into the public Downloads folder
+         on Android 9 (API 28) and below - Android 10+ (API 29+) uses
+         MediaStore's scoped-storage Downloads collection instead, which
+         needs no permission at all. maxSdkVersion means this
+         permission is simply not requested/granted on 29+, so it can't
+         accidentally widen what the app can do on modern Android. -->
+    <uses-permission
+        android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+        android:maxSdkVersion="28" />
 </manifest>

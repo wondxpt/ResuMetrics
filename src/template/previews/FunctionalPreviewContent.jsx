@@ -15,12 +15,11 @@ function FunctionalPreviewContent() {
         color: "#1a1a1a",
 
         px: "56px",
-        py: "48px",
-        paddingBottom: "151px",
+        py: "56px",
 
-        fontFamily: "Helvetica, Arial, sans-serif",
+        fontFamily: "Arial, Helvetica, sans-serif",
 
-        overflow: "hidden",
+        overflow: "visible",
 
         display: "flex",
         flexDirection: "column",
@@ -168,18 +167,6 @@ function FunctionalPreviewContent() {
             "Scrum framework and Agile principles",
           ]}
         />
-
-        <CertificationItem
-          name="Power BI Data Analyst"
-          issuer="Microsoft"
-          issueDate="2023"
-          expirationDate="2025"
-          credentialId="PL-300-923817"
-          credentialUrl="https://learn.microsoft.com/"
-          bullets={[
-            "Data modeling and visualization",
-          ]}
-        />
       </FunctionalSection>
 
       <FunctionalSection title="Skills">
@@ -200,8 +187,6 @@ function FunctionalPreviewContent() {
             "Stakeholder Management",
             "Data Analysis",
             "SQL",
-            "Microsoft Excel",
-            "Agile",
           ].map((skill, index) => (
             <Typography
               key={index}
@@ -282,7 +267,7 @@ function FunctionalSection({
         marginBottom: last
           ? 0
           : "9px",
-        overflow: "hidden",
+        overflow: "visible",
       }}
     >
       <Typography
@@ -291,7 +276,7 @@ function FunctionalSection({
             "Helvetica, Arial, sans-serif",
           fontSize: "13.5px",
           fontWeight: 700,
-          lineHeight: "15px",
+          lineHeight: 1.4,
           color: "#6d28d9",
           textTransform: "uppercase",
           textAlign: "left",
@@ -356,7 +341,7 @@ function Experience({
           sx={{
             minWidth: 0,
             fontSize: "13.5px",
-            lineHeight: "14px",
+            lineHeight: 1.42,
             fontWeight: 700,
             color: "#1a1a1a",
             overflowWrap: "anywhere",
@@ -373,7 +358,7 @@ function Experience({
           sx={{
             flexShrink: 0,
             fontSize: "13.5px",
-            lineHeight: "13px",
+            lineHeight: 1.4,
             fontStyle: "italic",
             color: "#555555",
             whiteSpace: "nowrap",
@@ -388,7 +373,7 @@ function Experience({
         <Typography
           sx={{
             fontSize: "13.5px",
-            lineHeight: "13px",
+            lineHeight: 1.4,
             fontStyle: "italic",
             color: "#555555",
             marginBottom: "3px",
@@ -408,7 +393,7 @@ function Experience({
             paddingLeft: "14px",
             "& li": {
               fontSize: "13.5px",
-              lineHeight: "12px",
+              lineHeight: 1.4,
               color: "#1a1a1a",
               marginBottom: "1px",
               overflowWrap: "anywhere",
@@ -456,7 +441,7 @@ function EducationItem({
           sx={{
             minWidth: 0,
             fontSize: "13.5px",
-            lineHeight: "14px",
+            lineHeight: 1.42,
             fontWeight: 700,
             color: "#1a1a1a",
             overflowWrap: "anywhere",
@@ -473,7 +458,7 @@ function EducationItem({
             sx={{
               flexShrink: 0,
               fontSize: "13.5px",
-              lineHeight: "13px",
+              lineHeight: 1.4,
               fontStyle: "italic",
               color: "#555555",
               whiteSpace: "nowrap",
@@ -489,7 +474,7 @@ function EducationItem({
         <Typography
           sx={{
             fontSize: "13.5px",
-            lineHeight: "13px",
+            lineHeight: 1.4,
             fontStyle: "italic",
             color: "#555555",
           }}
@@ -540,7 +525,7 @@ function CertificationItem({
           sx={{
             minWidth: 0,
             fontSize: "13.5px",
-            lineHeight: "14px",
+            lineHeight: 1.42,
             fontWeight: 700,
             color: "#1a1a1a",
             overflowWrap: "anywhere",
@@ -557,7 +542,7 @@ function CertificationItem({
             sx={{
               flexShrink: 0,
               fontSize: "13.5px",
-              lineHeight: "13px",
+              lineHeight: 1.4,
               fontStyle: "italic",
               color: "#555555",
               whiteSpace: "nowrap",
@@ -579,7 +564,7 @@ function CertificationItem({
             paddingLeft: "14px",
             "& li": {
               fontSize: "13.5px",
-              lineHeight: "12px",
+              lineHeight: 1.4,
               color: "#1a1a1a",
               marginBottom: "1px",
               overflowWrap: "anywhere",
@@ -600,7 +585,7 @@ function CertificationItem({
         <Typography
           sx={{
             fontSize: "13.5px",
-            lineHeight: "12px",
+            lineHeight: 1.4,
             color: "#555555",
             marginTop: "2px",
             overflowWrap: "anywhere",

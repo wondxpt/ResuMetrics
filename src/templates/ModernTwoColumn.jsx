@@ -17,12 +17,12 @@ function ModernTwoColumn({ data, demo = false }) {
       sx={{
         ...resumeTheme.page,
 
-        width: "100% !important",
+        width: "210mm !important",
 
-        minWidth: "0 !important",
+        minWidth: "210mm !important",
         minHeight: "297mm !important",
 
-        maxWidth: "100% !important",
+        maxWidth: "210mm !important",
         // No fixed/max height here on purpose: this two-column layout
         // must be able to grow past one A4 page when content is long,
         // instead of silently clipping it.
@@ -46,6 +46,8 @@ function ModernTwoColumn({ data, demo = false }) {
         backgroundColor:
           resumeTheme.colors.white,
 
+        border: "none !important",
+
         color:
           resumeTheme.colors.heading,
 
@@ -63,7 +65,7 @@ function ModernTwoColumn({ data, demo = false }) {
       <Box
         sx={{
           width: "32%",
-          minWidth: "32%",
+          minWidth: 0,
           maxWidth: "32%",
           flex: "0 0 32%",
           backgroundColor:
@@ -318,11 +320,11 @@ function ModernTwoColumn({ data, demo = false }) {
 
       <Box
         sx={{
-          width: "68%",
+          width: 0,
           minWidth: 0,
           maxWidth: "68%",
-          flex: "0 0 68%",
-          padding: "34px 30px",
+          flex: "1 1 68%",
+          padding: "24px 24px 26px 24px",
           boxSizing: "border-box",
           overflow: "visible",
           backgroundColor:
@@ -412,6 +414,7 @@ function ModernTwoColumn({ data, demo = false }) {
                 <ModernExperience
                   key={index}
                   job={job}
+                  demo={demo}
                 />
               )
             )
@@ -583,6 +586,7 @@ function MainSection({
 
 function ModernExperience({
   job,
+  demo = false,
 }) {
   const title =
     job?.title ||
@@ -636,6 +640,11 @@ function ModernExperience({
           .filter(Boolean)
       : [];
 
+  // Keep the built-in demo compact without removing any user-entered bullets.
+  const displayBullets = demo
+    ? bullets.slice(0, 4)
+    : bullets;
+
   return (
     <Box
       sx={{
@@ -643,7 +652,7 @@ function ModernExperience({
           .item,
         width: "100%",
         minWidth: 0,
-        overflow: "hidden",
+        overflow: "visible",
         boxSizing:
           "border-box",
       }}
@@ -715,7 +724,7 @@ function ModernExperience({
         </Typography>
       )}
 
-      {bullets.map(
+      {displayBullets.map(
         (
           bullet,
           bulletIndex
@@ -769,7 +778,7 @@ function ModernEducation({
           .item,
         width: "100%",
         minWidth: 0,
-        overflow: "hidden",
+        overflow: "visible",
         boxSizing:
           "border-box",
       }}
@@ -920,7 +929,7 @@ function ModernCertification({
           .item,
         width: "100%",
         minWidth: 0,
-        overflow: "hidden",
+        overflow: "visible",
         boxSizing:
           "border-box",
       }}

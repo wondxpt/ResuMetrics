@@ -13,7 +13,7 @@ const demoData = {
   linkedin: "linkedin.com/in/michaelanderson",
 
   summary:
-    "Results-driven Senior Business Analyst with 8+ years of experience translating business requirements into practical technology and process improvements. Strong background in stakeholder management, data analysis, process optimization, and cross-functional project delivery.",
+    "Senior Business Analyst with 8+ years of experience in analysis, process improvement, stakeholder management, and cross-functional delivery.",
 
   skills: [
     "Business Analysis",
@@ -52,9 +52,8 @@ const demoData = {
       start_date: "2021",
       end_date: "Present",
       bullets: [
-        "Led requirements gathering and business analysis initiatives across multiple enterprise projects.",
-        "Improved reporting workflows and reduced manual processing time by approximately 25%.",
-        "Collaborated with product, engineering, finance, and operations teams to deliver business solutions.",
+        "Led requirements gathering across multiple enterprise projects.",
+        "Improved reporting workflows and reduced manual processing time by 25%.",
       ],
     },
     {
@@ -64,9 +63,8 @@ const demoData = {
       start_date: "2017",
       end_date: "2021",
       bullets: [
-        "Analyzed operational processes and identified opportunities for efficiency and cost reduction.",
-        "Prepared business requirements, process documentation, and functional specifications.",
-        "Supported project teams throughout implementation and testing.",
+        "Analyzed processes and identified opportunities for efficiency and cost reduction.",
+        "Prepared requirements and supported implementation and testing.",
       ],
     },
     {
@@ -76,9 +74,8 @@ const demoData = {
       start_date: "2015",
       end_date: "2017",
       bullets: [
-        "Supported senior analysts with requirements gathering, documentation, and data analysis.",
-        "Created reports and dashboards using Microsoft Excel and SQL.",
-        "Assisted project teams with testing, issue tracking, and stakeholder communication.",
+        "Supported requirements gathering, documentation, and data analysis.",
+        "Created reports and dashboards using Excel and SQL.",
       ],
     },
   ],
@@ -89,13 +86,10 @@ const demoData = {
       issuer: "IIBA",
       issue_date: "2022",
       expiration_date: "2025",
-      credential_id: "CBAP-2022-45821",
-      credential_url: "https://www.iiba.org/",
       description:
-        "Professional certification demonstrating advanced business analysis knowledge and experience.",
+        "Advanced business analysis certification.",
       bullets: [
-        "Advanced business analysis practices",
-        "Requirements analysis and stakeholder management",
+        "Advanced analysis and stakeholder management",
       ],
     },
     {
@@ -103,13 +97,10 @@ const demoData = {
       issuer: "Scrum.org",
       issue_date: "2021",
       expiration_date: "",
-      credential_id: "PSM-I-784521",
-      credential_url: "https://www.scrum.org/",
       description:
-        "Certification covering Scrum framework, Agile principles, and Scrum team practices.",
+        "Certification in Scrum and Agile team practices.",
       bullets: [
-        "Scrum framework and Agile principles",
-        "Facilitation and Scrum team practices",
+        "Scrum framework and team facilitation",
       ],
     },
     {
@@ -117,13 +108,10 @@ const demoData = {
       issuer: "Microsoft",
       issue_date: "2023",
       expiration_date: "2025",
-      credential_id: "PL-300-923817",
-      credential_url: "https://learn.microsoft.com/",
       description:
-        "Certification focused on data preparation, modeling, visualization, and analysis using Microsoft Power BI.",
+        "Certification in Power BI data modeling, visualization, and analysis.",
       bullets: [
-        "Data modeling and visualization",
-        "Business intelligence and reporting",
+        "Data modeling and business reporting",
       ],
     },
   ],
@@ -186,21 +174,20 @@ function TwoColumnPreviewContent() {
       className="resume-page"
       sx={{
         width: A4_WIDTH,
-        height: A4_HEIGHT,
         minWidth: A4_WIDTH,
         minHeight: A4_HEIGHT,
         maxWidth: A4_WIDTH,
-        maxHeight: A4_HEIGHT,
 
         display: "flex",
         flexDirection: "row",
         flexWrap: "nowrap",
 
-        overflow: "hidden",
+        overflow: "visible",
 
         backgroundColor: "#ffffff",
 
-        fontFamily: "Helvetica, Arial, sans-serif",
+        fontFamily: "Arial, Helvetica, sans-serif",
+
 
         boxSizing: "border-box",
 
@@ -213,20 +200,20 @@ function TwoColumnPreviewContent() {
 
       <Box
         sx={{
-          width: "250px",
-          minWidth: "250px",
-          maxWidth: "250px",
+          width: "32%",
+          minWidth: 0,
+          maxWidth: "32%",
 
-          height: A4_HEIGHT,
+          height: "100%",
 
-          flex: "0 0 250px",
+          flex: "0 0 32%",
 
           backgroundColor: "#1e293b",
           color: "#ffffff",
 
-          padding: "30px 20px",
+          padding: "28px 24px",
 
-          overflow: "hidden",
+          overflow: "visible",
 
           boxSizing: "border-box",
 
@@ -344,7 +331,7 @@ function TwoColumnPreviewContent() {
                   marginBottom: "5px",
                 }}
               >
-                • {skill}
+                {"•"} {skill}
               </Typography>
             )
           )}
@@ -372,7 +359,7 @@ function TwoColumnPreviewContent() {
               >
                 {language.name}
                 {language.level
-                  ? ` — ${language.level}`
+                  ? " — " + language.level
                   : ""}
               </Typography>
             )
@@ -384,17 +371,17 @@ function TwoColumnPreviewContent() {
 
       <Box
         sx={{
-          width: "544px",
-          minWidth: "544px",
-          maxWidth: "544px",
+          width: 0,
+          minWidth: 0,
+          maxWidth: "68%",
 
-          height: A4_HEIGHT,
+          height: "100%",
 
-          flex: "0 0 544px",
+          flex: "1 1 68%",
 
-          padding: "34px 30px 30px 28px",
+          padding: "24px 24px 26px 24px",
 
-          overflow: "hidden",
+          overflow: "visible",
 
           backgroundColor: "#ffffff",
           color: "#1a1a1a",
@@ -482,7 +469,7 @@ function TwoColumnPreviewContent() {
 
                   marginBottom: "16px",
 
-                  overflow: "hidden",
+                  overflow: "visible",
                 }}
               >
                 <Box
@@ -519,7 +506,7 @@ function TwoColumnPreviewContent() {
                   >
                     {job.title}
                     {job.company
-                      ? ` — ${job.company}`
+                      ? " — " + job.company
                       : ""}
                   </Typography>
 
@@ -541,7 +528,7 @@ function TwoColumnPreviewContent() {
                         "right",
                     }}
                   >
-                    {job.start_date} –{" "}
+                    {job.start_date} "–"{" "}
                     {job.end_date}
                   </Typography>
                 </Box>
@@ -602,7 +589,7 @@ function TwoColumnPreviewContent() {
                           flexShrink: 0,
                         }}
                       >
-                        •
+                        {"\u2022"}
                       </Typography>
 
                       <Typography
@@ -699,7 +686,7 @@ function TwoColumnPreviewContent() {
                   >
                     {education.degree}
                     {education.institution
-                      ? ` — ${education.institution}`
+                      ? " — " + education.institution
                       : ""}
                   </Typography>
 
@@ -844,7 +831,7 @@ function TwoColumnPreviewContent() {
                         >
                           {certification.name}
                           {certification.issuer
-                            ? ` — ${certification.issuer}`
+                            ? " — " + certification.issuer
                             : ""}
                         </Typography>
 
@@ -991,7 +978,7 @@ function TwoColumnPreviewContent() {
 
 const sidebarTextStyle = {
   fontFamily:
-    "Helvetica, Arial, sans-serif",
+    "Arial, Helvetica, sans-serif",
 
   fontSize: "13.5px",
 
@@ -1008,7 +995,7 @@ const sidebarTextStyle = {
 
 const bodyStyle = {
   fontFamily:
-    "Helvetica, Arial, sans-serif",
+    "Arial, Helvetica, sans-serif",
 
   fontSize: "13.5px",
 

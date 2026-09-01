@@ -153,7 +153,7 @@ function CertificationItem({
       sx={{
         width: "100%",
         marginBottom: "7px",
-        overflow: "hidden",
+        overflow: "visible",
       }}
     >
       <Box
@@ -268,9 +268,9 @@ function MinimalPreviewContent() {
 
         boxSizing: "border-box",
 
-        padding: "96px",
+        padding: "56px",
 
-        overflow: "hidden",
+        overflow: "visible",
 
         fontFamily:
           "Helvetica, Arial, sans-serif",
@@ -282,7 +282,7 @@ function MinimalPreviewContent() {
         sx={{
           width: "100%",
           textAlign: "center",
-          overflow: "hidden",
+          overflow: "visible",
         }}
       >
         <Typography
@@ -367,7 +367,7 @@ function MinimalPreviewContent() {
             sx={{
               mb: "12px",
               width: "100%",
-              overflow: "hidden",
+              overflow: "visible",
             }}
           >
             <Box

@@ -36,7 +36,7 @@ const demoData = {
       start_date: "2021",
       end_date: "Present",
       bullets: [
-        "Led requirements gathering and business analysis.",
+        "Led requirements gathering and business analysis initiatives.",
         "Reduced reporting effort by approximately 25%.",
       ],
     },
@@ -59,6 +59,7 @@ const demoData = {
       end_date: "2017",
       bullets: [
         "Supported analysis, reporting, and testing.",
+        "Assisted with stakeholder communication and issue tracking.",
       ],
     },
   ],
@@ -101,6 +102,10 @@ const demoData = {
     {
       name: "French",
       level: "Professional",
+    },
+    {
+      name: "Spanish",
+      level: "Basic",
     },
   ],
 
@@ -329,7 +334,7 @@ function CombinationPreviewContent({
         fontFamily:
           "Helvetica, Arial, sans-serif",
 
-        overflow: "hidden",
+        overflow: "visible",
 
         display: "flex",
         flexDirection: "column",
@@ -627,7 +632,7 @@ function CombinationSection({
 
         marginBottom: last
           ? 0
-          : "13px",
+          : "18px",
 
         flexShrink: 0,
 
