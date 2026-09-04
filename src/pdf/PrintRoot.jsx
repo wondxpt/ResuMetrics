@@ -1,7 +1,6 @@
 import { createPortal } from "react-dom";
 
 import TemplateRenderer from "../templates/TemplateRenderer";
-import ResumePage from "../templates/ResumePage";
 
 /**
  * Always-mounted, off-screen twin of the resume that exists for exactly
@@ -20,14 +19,23 @@ import ResumePage from "../templates/ResumePage";
  * of those on-screen-only styles surviving into the print layout pass
  * could push content onto a spurious extra page or off the printable
  * area.
-
+ *
  * Rendering a second, completely unscaled, non-absolutely-positioned
- * copy of the SAME <ResumePage><TemplateRenderer /></ResumePage> tree
- * used by Preview - subscribed to the same zustand store, so it is
- * always in sync - sidesteps that whole class of bug. This portal is
- * `display: none` on screen (see print.css) and only becomes visible
- * (and the rest of the app hidden) inside `@media print`, so it never
- * affects normal app usage.
+ * copy of TemplateRenderer's own output - subscribed to the same
+ * zustand store, so it is always in sync - sidesteps that whole class
+ * of bug. This portal is `display: none` on screen (see print.css)
+ * and only becomes visible (and the rest of the app hidden) inside
+ * `@media print`, so it never affects normal app usage.
+ *
+ * IMPORTANT: every template component (Canadian, Combination,
+ * ModernTwoColumn, etc.) already renders exactly one ".resume-page"
+ * root of its own - some via the shared <ResumePage> wrapper, others
+ * by building their own top-level Box with that class directly. Do
+ * NOT wrap <TemplateRenderer /> in an extra <ResumePage> here: that
+ * nests a second 210x297mm page box inside the first one, and
+ * Chromium's print-pagination engine reserves that outer box as its
+ * own, mostly empty, physical page before the real content - the
+ * "blank first page" bug.
  */
 function PrintRoot() {
   if (typeof document === "undefined") return null;
@@ -41,9 +49,7 @@ function PrintRoot() {
   }
 
   return createPortal(
-    <ResumePage>
-      <TemplateRenderer />
-    </ResumePage>,
+    <TemplateRenderer />,
     mountNode
   );
 }

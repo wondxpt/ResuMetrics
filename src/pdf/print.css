@@ -95,6 +95,15 @@
     position: static !important;
     margin: 0 !important;
 
+    /* The 1px border on .resume-page (see ResumePage.jsx) is a
+       screen-only visual aid so the page reads as a distinct sheet
+       against the app's gray viewer background. On an actual
+       printed/exported page it has no reason to appear, and on any
+       page where the box's own edge falls mid-sheet (e.g. a
+       near-empty trailing page after the last section) it shows up
+       as a stray line floating on otherwise blank paper. */
+    border: none !important;
+
     /* The @page margin above already reserves the 15mm border on
        every page, so the box itself must now be sized to the
        printable area (210mm - 2*15mm, 297mm - 2*15mm), not the full
