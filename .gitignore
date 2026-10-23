@@ -1,3 +1,4 @@
+# Node / Vite
 node_modules/
 dist/
 .cache/
@@ -14,11 +15,27 @@ dist/
 **/.idea/
 *.iml
 
+# Local archives and temporary editing artifacts
 src.zip
 src/theme/useColorMode.zip
+/.logo_backup_20260902/
+/R2.jpg
+/fix-logo.cjs
+/fix_preview_effect*.cjs
+/remove-logo-border.cjs
+/src/pages/Preview.jsx.before-preview-polish.jsx
 
+# Android build output and machine-local settings
 android/.gradle/
 android/**/build/
 android/**/local.properties
-*.apk
 android/app/src/main/assets/public/
+
+# Release signing material (never commit)
+android/keystore.properties
+*.jks
+*.keystore
+
+# Distribution artifacts belong on GitHub Releases, not in Git history
+*.apk
+*.aab

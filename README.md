@@ -21,6 +21,22 @@
 
 ResuMetrics is a resume/CV builder built with React and Vite, with an Android app powered by Capacitor. Its goal is simple: help people organize their experience, choose a layout that fits their story, review the result, and produce a clean document they can share.
 
+## Android beta — free download
+
+**Version:** 1.0.1 Beta · **Price:** Free during beta testing
+
+[**Download the Android APK**](https://github.com/wondxpt/ResuMetrics/releases/tag/v1.0.1-beta) from the public GitHub Release page. The APK is intended for Android devices; the AAB is kept locally for potential future store submission.
+
+**Known limitation:** Android's Save PDF action opens the native print UI and shows an A4 preview. Share PDF currently opens that same print UI rather than a dedicated share sheet. This beta has been smoke-tested on a physical device, but workflows are not yet all production-ready. Review exported documents before using them for important applications.
+
+### Install the beta
+
+1. Open the [v1.0.1 Beta release page](https://github.com/wondxpt/ResuMetrics/releases/tag/v1.0.1-beta).
+2. Download ResuMetrics-1.0.1-myket.apk.
+3. Open the APK on your Android device and follow the installation prompt. Install APKs only from sources you trust.
+
+GitHub downloads are free; Google Play publication is separate and is not required to install this beta.
+
 ## What it does
 
 - **Structured resume editing** — work through personal details, experience, education, skills, and certifications in dedicated sections.

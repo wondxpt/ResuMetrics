@@ -29,6 +29,7 @@ import CreativePhotoPreview from "../template/previews/CreativePhotoPreview";
 import { useEffect, useRef, useState } from "react";
 
 import { useLanguage } from "../i18n/LanguageContext";
+import PinchZoomSurface from "../components/common/PinchZoomSurface";
 
 const A4_WIDTH = "210mm";
 const A4_HEIGHT = "297mm";
@@ -409,6 +410,12 @@ function TemplateA4Preview({ Preview }) {
         background: "#eef1f4",
       }}
     >
+      <PinchZoomSurface
+        baseScale={scale}
+        minScale={scale}
+        maxScale={Math.min(2.5, scale * 2.5)}
+        style={{ width: "100%", height: "100%" }}
+      >
       <Box
         sx={{
           width: A4_WIDTH,
@@ -480,6 +487,7 @@ function TemplateA4Preview({ Preview }) {
       >
         <Preview />
       </Box>
+      </PinchZoomSurface>
     </Box>
   );
 }

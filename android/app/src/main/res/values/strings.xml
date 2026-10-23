@@ -2,6 +2,6 @@
 <resources>
     <string name="app_name">ResuMetrics</string>
     <string name="title_activity_main">ResuMetrics</string>
-    <string name="package_name">com.ResuMetrics.app</string>
-    <string name="custom_url_scheme">com.ResuMetrics.app</string>
+    <string name="package_name">com.resumetrics.app</string>
+    <string name="custom_url_scheme">com.resumetrics.app</string>
 </resources>

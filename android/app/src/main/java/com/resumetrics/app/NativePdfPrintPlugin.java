@@ -1,4 +1,4 @@
-package com.resumebuilder.app;
+package com.resumetrics.app;
 
 import android.app.Activity;
 import android.content.Context;

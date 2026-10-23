@@ -29,6 +29,7 @@ import TemplateRenderer from "../templates/TemplateRenderer";
 import { useLanguage } from "../i18n/LanguageContext";
 import useResumeStore from "../store/resumeStore";
 import AtsScoreCard from "../components/AtsScoreCard";
+import PinchZoomSurface from "../components/common/PinchZoomSurface";
 
 function Preview() {
   const navigate = useNavigate();
@@ -233,9 +234,12 @@ function Preview() {
     <Box
       sx={{
         width: "100%",
+        maxWidth: "100vw",
+        minWidth: 0,
         minHeight: "100vh",
         background: "#F7F5F0",
         boxSizing: "border-box",
+        overflowX: "hidden",
       }}
     >
       <Container
@@ -279,7 +283,7 @@ function Preview() {
         >
           <Box
             sx={{
-              width: "100%",
+              width: "100vw",
               flexShrink: 0,
 
               background: "#F7F5F0",
@@ -293,13 +297,16 @@ function Preview() {
                 md: 3,
               },
 
-              py: fullscreen ? 0.75 : 1.5,
+              py: fullscreen ? 0.75 : 0.75,
 
               boxSizing: "border-box",
 
-              zIndex: 100,
-              position: fullscreen ? "sticky" : "relative",
-              top: 0,
+              zIndex: 1200,
+              position: "fixed",
+              top: fullscreen ? 0 : { xs: 56, sm: 84 },
+              left: 0,
+              right: 0,
+              maxWidth: "100vw",
             }}
           >
             <Box
@@ -381,10 +388,14 @@ function Preview() {
                   flexWrap={fullscreen ? "wrap" : "nowrap"}
                   sx={{
                     width: fullscreen ? "auto" : { xs: "100%", sm: "auto" },
+                    minWidth: 0,
+                    maxWidth: "100%",
+                    overflow: "visible",
                     justifyContent: fullscreen
                       ? "flex-end"
                       : { xs: "stretch", sm: "flex-end" },
                     ml: fullscreen ? "auto" : 0,
+                    boxSizing: "border-box",
                   }}
                 >
                   {fullscreen ? (
@@ -514,142 +525,27 @@ function Preview() {
                       </Button>
                     </>
                   ) : (
-                    <>
-                      <Stack direction="row" spacing={0.5} justifyContent="center" alignItems="center" sx={{ width: "100%", mb: 0.25 }}>
-                        <Button
-                          variant="outlined"
-                          onClick={handleZoomOut}
-                          disabled={scale <= 0.35}
-                          aria-label="Zoom out"
-                          title="Zoom out"
-                          sx={{ minWidth: 44, width: 44, height: 40, p: 0, borderRadius: 1.75, borderColor: "rgba(26,42,58,0.25)", color: "#1A2A3A" }}
-                        >
-                          <ZoomOutIcon fontSize="small" />
-                        </Button>
-                        <Button
-                          variant="text"
-                          onClick={handleFitToPage}
-                          aria-label={`Zoom ${Math.round(scale * 100)} percent. Reset to fit`}
-                          title="Fit to page"
-                          sx={{ minWidth: 68, height: 40, px: 1, borderRadius: 1.75, color: "#1A2A3A", fontWeight: 700, fontSize: "0.78rem" }}
-                        >
-                          {Math.round(scale * 100)}%
-                        </Button>
-                        <Button
-                          variant="outlined"
-                          onClick={handleZoomIn}
-                          disabled={scale >= 2}
-                          aria-label="Zoom in"
-                          title="Zoom in"
-                          sx={{ minWidth: 44, width: 44, height: 40, p: 0, borderRadius: 1.75, borderColor: "rgba(26,42,58,0.25)", color: "#1A2A3A" }}
-                        >
-                          <ZoomInIcon fontSize="small" />
-                        </Button>
-                        {Math.abs(scale - fitScale) > 0.01 && (
-                          <Button
-                            variant="text"
-                            onClick={handleFitToPage}
-                            aria-label="Reset zoom to fit"
-                            title="Reset zoom"
-                            sx={{ minWidth: 44, width: 44, height: 40, p: 0, borderRadius: 1.75, color: "#1A2A3A" }}
-                          >
-                            <RestartAltIcon fontSize="small" />
-                          </Button>
-                        )}
-                      </Stack>
-
-                      <Button
-                        fullWidth={true}
-                        variant="contained"
-                        startIcon={
-                          pdfStatus.loading ? (
-                            <CircularProgress size={16} sx={{ color: "#fff" }} />
-                          ) : (
-                            <PictureAsPdfIcon />
-                          )
-                        }
-                        onClick={() => handlePdfAction("save")}
-                        disabled={pdfStatus.loading}
-                        sx={{
-                          background: "#D4A030",
-                          color: "#fff",
-                          borderRadius: 2,
-                          minHeight: 44,
-                          fontWeight: 700,
-                          whiteSpace: "nowrap",
-                          "&:hover": { background: "#b88925" },
-                          "&.Mui-disabled": {
-                            background: "#D4A030",
-                            color: "#fff",
-                            opacity: 0.7,
-                          },
-                        }}
-                      >
-                        {pdfStatus.loading ? "Generating…" : "Save PDF"}
-                      </Button>
-
-                      <Button
-                        fullWidth={true}
-                        variant="outlined"
-                        startIcon={<ShareIcon />}
-                        onClick={() => handlePdfAction("share")}
-                        disabled={pdfStatus.loading}
-                        sx={{
-                          borderColor: "#1A2A3A",
-                          color: "#1A2A3A",
-                          borderRadius: 2,
-                          minHeight: 44,
-                          fontWeight: 700,
-                          whiteSpace: "nowrap",
-                          "&:hover": {
-                            borderColor: "#1A2A3A",
-                            background: "rgba(26,42,58,0.05)",
-                          },
-                        }}
-                      >
-                        Share PDF
-                      </Button>
-
-                      <Button
-                        fullWidth={true}
-                        variant="outlined"
-                        startIcon={<PrintIcon />}
-                        onClick={() => handlePdfAction("print")}
-                        disabled={pdfStatus.loading}
-                        sx={{
-                          borderColor: "#1A2A3A",
-                          color: "#1A2A3A",
-                          borderRadius: 2,
-                          minHeight: 44,
-                          fontWeight: 700,
-                          whiteSpace: "nowrap",
-                          "&:hover": {
-                            borderColor: "#1A2A3A",
-                            background: "rgba(26,42,58,0.05)",
-                          },
-                        }}
-                      >
-                        Print
-                      </Button>
-
-                      <Button
-                        fullWidth={true}
-                        variant="contained"
-                        startIcon={<FullscreenIcon />}
-                        onClick={handleFullscreen}
-                        sx={{
-                          background: "#1A2A3A",
-                          color: "#fff",
-                          borderRadius: 2,
-                          minHeight: 44,
-                          fontWeight: 700,
-                          whiteSpace: "nowrap",
-                          "&:hover": { background: "#263b52" },
-                        }}
-                      >
-                        Fullscreen
-                      </Button>
-                    </>
+                    <Box
+                      sx={{
+                        width: "100%",
+                        minWidth: 0,
+                        maxWidth: "100%",
+                        display: "grid",
+                        gridTemplateColumns: "repeat(5, minmax(0, 1fr))",
+                        gap: 0.5,
+                        alignItems: "center",
+                        boxSizing: "border-box",
+                      }}
+                    >
+                      <Button variant="outlined" onClick={handleZoomOut} disabled={scale <= 0.35} aria-label="Zoom out" title="Zoom out" sx={{ minWidth: 0, width: "100%", height: 38, p: 0, borderRadius: 1.75, borderColor: "rgba(26,42,58,0.20)", color: "#1A2A3A" }}><ZoomOutIcon fontSize="small" /></Button>
+                      <Button variant="text" onClick={handleFitToPage} aria-label="Current zoom. Tap to reset" title="Tap to reset zoom" sx={{ minWidth: 0, width: "100%", height: 38, px: 0.25, borderRadius: 1.75, color: "#1A2A3A", fontWeight: 700, fontSize: "0.72rem" }}>{Math.round(scale * 100)}%</Button>
+                      <Button variant="outlined" onClick={handleZoomIn} disabled={scale >= 2} aria-label="Zoom in" title="Zoom in" sx={{ minWidth: 0, width: "100%", height: 38, p: 0, borderRadius: 1.75, borderColor: "rgba(26,42,58,0.20)", color: "#1A2A3A" }}><ZoomInIcon fontSize="small" /></Button>
+                      <Button variant="contained" onClick={() => handlePdfAction("save")} disabled={pdfStatus.loading} aria-label="Save PDF" title="Save PDF" sx={{ minWidth: 0, width: "100%", height: 38, p: 0, borderRadius: 1.75, background: "#D4A030", color: "#fff", "&:hover": { background: "#b88925" } }}>{pdfStatus.loading ? <CircularProgress size={15} sx={{ color: "#fff" }} /> : <PictureAsPdfIcon fontSize="small" />}</Button>
+                      <Button variant="outlined" onClick={() => handlePdfAction("share")} disabled={pdfStatus.loading} aria-label="Share PDF" title="Share PDF" sx={{ minWidth: 0, width: "100%", height: 38, p: 0, borderRadius: 1.75, borderColor: "rgba(26,42,58,0.20)", color: "#1A2A3A" }}><ShareIcon fontSize="small" /></Button>
+                      <Button variant="outlined" onClick={() => handlePdfAction("print")} disabled={pdfStatus.loading} aria-label="Print PDF" title="Print PDF" sx={{ minWidth: 0, width: "100%", height: 38, p: 0, borderRadius: 1.75, borderColor: "rgba(26,42,58,0.20)", color: "#1A2A3A" }}><PrintIcon fontSize="small" /></Button>
+                      <Button variant="contained" onClick={handleFullscreen} aria-label="Fullscreen" title="Fullscreen" sx={{ minWidth: 0, width: "100%", height: 38, p: 0, borderRadius: 1.75, background: "#1A2A3A", color: "#fff", "&:hover": { background: "#263b52" } }}><FullscreenIcon fontSize="small" /></Button>
+                      {Math.abs(scale - fitScale) > 0.01 && <Button variant="text" onClick={handleFitToPage} aria-label="Reset zoom to fit" title="Reset zoom" sx={{ minWidth: 0, width: "100%", height: 38, p: 0, borderRadius: 1.75, color: "#1A2A3A" }}><RestartAltIcon fontSize="small" /></Button>}
+                    </Box>
                   )}
                 </Stack>
               </Stack>
@@ -701,6 +597,10 @@ function Preview() {
                 sm: 3,
               },
 
+              // The Preview controls are viewport-fixed, so reserve their
+              // responsive height inside the independent resume scroller.
+              paddingTop: fullscreen ? 16 : { xs: 19, sm: 10 },
+
               WebkitOverflowScrolling:
                 "touch",
 
@@ -709,6 +609,17 @@ function Preview() {
               },
             }}
           >
+            <PinchZoomSurface
+              baseScale={scale}
+              minScale={Math.max(0.35, scale)}
+              maxScale={Math.min(2.5, scale * 2.5)}
+              style={{
+                width: `${scaledWidth}px`,
+                height: `${scaledHeight}px`,
+                flexShrink: 0,
+                position: "relative",
+              }}
+            >
             <Box
               sx={{
                 width: `${scaledWidth}px`,
@@ -827,6 +738,7 @@ function Preview() {
                 ))}
               </Paper>
             </Box>
+            </PinchZoomSurface>
           </Box>
         </Box>
       </Container>

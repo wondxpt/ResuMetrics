@@ -1,15 +1,10 @@
-// Renders the app's real icon file - the exact same PNG used for the
-// browser favicon, the PWA icon, and the Android/Capacitor launcher
-// icon (public/android-chrome-192x192.png) - rather than a separate
-// hand-drawn copy. That way every in-app logo placement is
-// guaranteed to be pixel-identical to the actual app icon, with a
-// single source of truth: update the icon file once, and it updates
-// everywhere (navbar, language screen, anywhere else `<Logo />` is
-// used) automatically.
+// Shared in-app ResuMetrics logo. The supplied artwork is processed as a
+// transparent PNG with the outer white border removed. Every <Logo />
+// placement uses this single asset.
 function Logo({ size = 34, alt = "ResuMetrics" }) {
   return (
     <img
-      src="/android-chrome-512x512.png"
+      src="/resumetrics-logo.png"
       width={size}
       height={size}
       alt={alt}
