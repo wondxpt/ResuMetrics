@@ -84,10 +84,11 @@ android/       Capacitor Android project
 public/        Static web assets
 ```
 
-## Current scope and transparency
+## Source access and licensing
 
-This repository contains the application source and Android integration. The CI workflow automatically installs dependencies and builds the web app on pushes to `main` and pull requests targeting `main`; a passing build confirms the bundle compiles, but does not replace runtime testing. No public live-demo URL is currently linked. The repository has no license file, so no explicit reuse or redistribution license is provided.
+This repository is public so prospective employers can review and evaluate the implementation. **It is not an open-source-licensed project.** Copyright © 2026 Abbas Shiri. All rights reserved. You may view the code and download a copy for personal evaluation; no license is granted to reuse, adapt, redistribute, publish derivative versions, or use the source commercially without prior written permission. Third-party dependencies and assets remain governed by their own licenses.
 
+The GitHub Actions workflow builds the web bundle on pushes to `main` and pull requests targeting `main`. A passing build confirms compilation, not complete runtime or Android release validation. No public live-demo link is currently configured.
 ## Feedback
 
 Bug reports and focused improvement suggestions are welcome through [GitHub Issues](https://github.com/wondxpt/ResuMetrics/issues).

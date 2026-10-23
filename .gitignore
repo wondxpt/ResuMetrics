@@ -3,7 +3,17 @@ dist/
 .cache/
 *.log
 .DS_Store
+
+# Local environment secrets
 .env
+.env.*
+!.env.example
+
+# IDE and local workspace state
+.idea/
+**/.idea/
+*.iml
+
 src.zip
 src/theme/useColorMode.zip
 
@@ -11,5 +21,4 @@ android/.gradle/
 android/**/build/
 android/**/local.properties
 *.apk
-
 android/app/src/main/assets/public/
