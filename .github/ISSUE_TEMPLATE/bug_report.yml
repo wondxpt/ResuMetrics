@@ -1,0 +1,60 @@
+name: Bug report
+description: Report a reproducible problem in ResuMetrics.
+title: "bug: "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Please search existing issues first. Do not include real resume content, personal contact details, credentials, or API keys.
+  - type: textarea
+    id: problem
+    attributes:
+      label: What happened?
+      description: Describe the observed behavior and where it occurs.
+      placeholder: What did you see?
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      description: Provide the smallest reliable sequence of steps.
+      placeholder: |
+        1. Open...
+        2. Enter synthetic sample data...
+        3. Select...
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior
+      placeholder: What should have happened?
+    validations:
+      required: true
+  - type: textarea
+    id: actual
+    attributes:
+      label: Additional observations
+      description: Add error messages with personal data and secrets removed.
+    validations:
+      required: false
+  - type: dropdown
+    id: platform
+    attributes:
+      label: Platform
+      options:
+        - Web
+        - Android app
+        - Both
+        - Unsure
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: App version / browser
+      placeholder: e.g. 1.0.1 Beta, Android 15, Chrome 130
+    validations:
+      required: false

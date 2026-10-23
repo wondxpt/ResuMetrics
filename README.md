@@ -104,7 +104,7 @@ public/        Static web assets
 
 This repository is public so prospective employers can review and evaluate the implementation. **It is not an open-source-licensed project.** Copyright © 2026 Abbas Shiri. All rights reserved. You may view the code and download a copy for personal evaluation; no license is granted to reuse, adapt, redistribute, publish derivative versions, or use the source commercially without prior written permission. Third-party dependencies and assets remain governed by their own licenses.
 
-The GitHub Actions workflow builds the web bundle on pushes to `main` and pull requests targeting `main`. A passing build confirms compilation, not complete runtime or Android release validation. No public live-demo link is currently configured.
+GitHub Actions runs the Node.js test suite and builds the production web bundle on pushes to `main` and pull requests targeting `main`. A separate job syncs Capacitor and builds an unsigned Android debug APK; the artifact is available from that workflow run for 7 days. These checks verify selected helper behavior and buildability, not every end-to-end workflow. CI does not sign or publish store releases, which still require release-specific checks and device testing. No public live-demo link is currently configured.
 ## Feedback
 
 Bug reports and focused improvement suggestions are welcome through [GitHub Issues](https://github.com/wondxpt/ResuMetrics/issues).

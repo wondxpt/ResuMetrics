@@ -1,0 +1,46 @@
+name: Feature request
+description: Suggest a focused improvement to ResuMetrics.
+title: "feature: "
+labels: ["enhancement"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Please describe the user problem before proposing a solution. Do not attach real resumes or personal data.
+  - type: textarea
+    id: problem
+    attributes:
+      label: What problem should this solve?
+      placeholder: Describe the task or frustration a user encounters.
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed behavior
+      description: Explain the outcome you expect. Implementation details are optional.
+    validations:
+      required: true
+  - type: dropdown
+    id: area
+    attributes:
+      label: Area
+      options:
+        - Resume editor
+        - Templates and preview
+        - PDF export
+        - ATS and completeness
+        - Localization and right-to-left layouts
+        - Android app
+        - Accessibility
+        - Documentation
+        - Other
+    validations:
+      required: true
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives and context
+      description: Include alternatives considered and synthetic examples, if useful.
+    validations:
+      required: false
