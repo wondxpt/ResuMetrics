@@ -25,7 +25,7 @@ ResuMetrics is a resume/CV builder built with React and Vite, with an Android ap
 
 **Version:** 1.0.1 Beta · **Price:** Free during beta testing
 
-[**Download the Android APK**](https://github.com/wondxpt/ResuMetrics/releases/tag/v1.0.1-beta) from the public GitHub Release page. The APK is intended for Android devices; the AAB is kept locally for potential future store submission.
+[**Download the Android APK — free**](https://raw.githubusercontent.com/wondxpt/ResuMetrics/downloads-v1.0.1-beta/release/ResuMetrics-1.0.1-myket.apk) · [Release notes and SHA-256 checksum](https://github.com/wondxpt/ResuMetrics/releases/tag/v1.0.1-beta). The APK is intended for Android devices; the AAB is kept locally for potential future store submission.
 
 **Known limitation:** Android's Save PDF action opens the native print UI and shows an A4 preview. Share PDF currently opens that same print UI rather than a dedicated share sheet. This beta has been smoke-tested on a physical device, but workflows are not yet all production-ready. Review exported documents before using them for important applications.
 
