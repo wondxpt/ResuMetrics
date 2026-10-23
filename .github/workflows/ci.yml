@@ -79,7 +79,7 @@ jobs:
           ./gradlew --no-daemon :app:assembleDebug
 
       - name: Upload debug APK
-        uses: actions/upload-artifact@v6
+        uses: actions/upload-artifact@v7
         with:
           name: resumetrics-android-debug-${{ github.sha }}
           path: android/app/build/outputs/apk/debug/app-debug.apk
