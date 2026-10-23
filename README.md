@@ -86,7 +86,7 @@ public/        Static web assets
 
 ## Current scope and transparency
 
-This repository contains the application source and Android integration. No public live-demo URL or automated release status is advertised here because neither is configured in the repository metadata. The repository currently has no license file; reuse and redistribution terms have therefore not been explicitly granted.
+This repository contains the application source and Android integration. The CI workflow automatically installs dependencies and builds the web app on pushes to `main` and pull requests targeting `main`; a passing build confirms the bundle compiles, but does not replace runtime testing. No public live-demo URL is currently linked. The repository has no license file, so no explicit reuse or redistribution license is provided.
 
 ## Feedback
 
