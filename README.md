@@ -1,6 +1,10 @@
 # ResuMetrics
 
 <p align="center">
+  <a href="https://github.com/wondxpt/ResuMetrics/actions/workflows/ci.yml"><img alt="CI" src="https://github.com/wondxpt/ResuMetrics/actions/workflows/ci.yml/badge.svg?branch=main" /></a>
+</p>
+
+<p align="center">
   <img src="https://raw.githubusercontent.com/wondxpt/ResuMetrics/main/profile-banner.svg" alt="ResuMetrics — Make your experience stand out" width="100%" />
 </p>
 
